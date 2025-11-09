@@ -33,7 +33,13 @@ from pytuin_desktop.models.blocks import (
     FileBlock,
     AnyBlock,
 )
-from pytuin_desktop.models.content import TextContent, TextStyles
+from pytuin_desktop.models.content import (
+    TextContent,
+    TextStyles,
+    RunbookLinkContent,
+    RunbookLinkProps,
+)
+from pytuin_desktop.models.dependency import DependencySpec
 from pytuin_desktop.models.props import (
     TextProps,
     HeadingProps,
@@ -131,8 +137,17 @@ class BlockBuilder:
         interpreter: str = "/bin/bash",
         output_variable: str = "",
         output_visible: bool = True,
+        dependency: str | DependencySpec | None = None,
     ) -> ScriptBlock:
         """Create a script execution block."""
+        # Convert dependency to string format for storage
+        if dependency is None:
+            dep_value = "{}"
+        elif isinstance(dependency, str):
+            dep_value = dependency
+        else:
+            dep_value = dependency.to_json_string()
+
         return ScriptBlock(
             id=uuid4(),
             props=ScriptProps(
@@ -141,7 +156,7 @@ class BlockBuilder:
                 interpreter=interpreter,
                 outputVariable=output_variable,
                 outputVisible=output_visible,
-                dependency="{}",
+                dependency=dep_value,
             ),
         )
 
@@ -152,8 +167,17 @@ class BlockBuilder:
         run_type: str = "bash",
         output_visible: bool = True,
         is_global: bool = False,
+        dependency: str | DependencySpec | None = None,
     ) -> RunBlock:
         """Create a terminal/run block."""
+        # Convert dependency to string format for storage
+        if dependency is None:
+            dep_value = "{}"
+        elif isinstance(dependency, str):
+            dep_value = dependency
+        else:
+            dep_value = dependency.to_json_string()
+
         return RunBlock(
             id=uuid4(),
             props=RunProps(
@@ -162,7 +186,7 @@ class BlockBuilder:
                 type=run_type,
                 pty="",
                 outputVisible=output_visible,
-                dependency="{}",
+                dependency=dep_value,
             ),
         )
 
@@ -226,111 +250,133 @@ class BlockBuilder:
     @staticmethod
     def env_var(name: str, value: str) -> EnvBlock:
         """Create an environment variable block."""
-        return EnvBlock(
-            id=uuid4(),
-            props=EnvProps(name=name, value=value),
-        )
+        return EnvBlock(id=uuid4(), props=EnvProps(name=name, value=value))
 
     @staticmethod
     def var(name: str, value: str) -> VarBlock:
         """Create a variable block."""
-        return VarBlock(
-            id=uuid4(),
-            props=VarProps(name=name, value=value),
-        )
+        return VarBlock(id=uuid4(), props=VarProps(name=name, value=value))
 
     @staticmethod
     def local_var(name: str) -> LocalVarBlock:
         """Create a local variable block."""
-        return LocalVarBlock(
-            id=uuid4(),
-            props=LocalVarProps(name=name),
-        )
+        return LocalVarBlock(id=uuid4(), props=LocalVarProps(name=name))
 
     @staticmethod
     def var_display(name: str) -> VarDisplayBlock:
         """Create a variable display block."""
-        return VarDisplayBlock(
-            id=uuid4(),
-            props=VarDisplayProps(name=name),
-        )
+        return VarDisplayBlock(id=uuid4(), props=VarDisplayProps(name=name))
 
     @staticmethod
     def directory(path: str) -> DirectoryBlock:
-        """Create a directory listing block."""
-        return DirectoryBlock(
-            id=uuid4(),
-            props=DirectoryProps(path=path),
-        )
+        """Create a directory block."""
+        return DirectoryBlock(id=uuid4(), props=DirectoryProps(path=path))
 
     @staticmethod
     def local_directory() -> LocalDirectoryBlock:
         """Create a local directory block."""
-        return LocalDirectoryBlock(id=uuid4())
+        return LocalDirectoryBlock(id=uuid4(), props=DirectoryProps(path=""))
 
     @staticmethod
     def dropdown(
         name: str,
-        options: str,
+        options: str = "",
+        fixed_options: str = "",
+        variable_options: str = "",
+        command_options: str = "",
+        value: str = "",
         options_type: Literal["fixed", "variable", "command"] = "fixed",
-        interpreter: str = "bash",
+        interpreter: str = "/bin/bash",
     ) -> DropdownBlock:
-        """Create a dropdown selection block."""
-        fixed = options if options_type == "fixed" else ""
-        variable = options if options_type == "variable" else ""
-        command = options if options_type == "command" else ""
-
+        """Create a dropdown block."""
         return DropdownBlock(
             id=uuid4(),
             props=DropdownProps(
                 name=name,
                 options=options,
-                fixedOptions=fixed,
-                variableOptions=variable,
-                commandOptions=command,
-                value="",
+                fixedOptions=fixed_options,
+                variableOptions=variable_options,
+                commandOptions=command_options,
+                value=value,
                 optionsType=options_type,
                 interpreter=interpreter,
             ),
         )
 
     @staticmethod
-    def sqlite(name: str, uri: str = "", query: str = "") -> SQLiteBlock:
+    def sqlite(
+        name: str,
+        query: str,
+        uri: str,
+        auto_refresh: int = 0,
+        dependency: str | DependencySpec | None = None,
+    ) -> SQLiteBlock:
         """Create a SQLite query block."""
+        # Convert dependency to string format for storage
+        if dependency is None:
+            dep_value = "{}"
+        elif isinstance(dependency, str):
+            dep_value = dependency
+        else:
+            dep_value = dependency.to_json_string()
+
         return SQLiteBlock(
             id=uuid4(),
             props=SQLiteProps(
                 name=name,
                 query=query,
                 uri=uri,
-                autoRefresh=0,
-                dependency="{}",
+                autoRefresh=auto_refresh,
+                dependency=dep_value,
             ),
         )
 
     @staticmethod
-    def postgres(name: str, uri: str = "", query: str = "") -> PostgresBlock:
+    def postgres(
+        name: str,
+        query: str,
+        uri: str,
+        auto_refresh: int = 0,
+        dependency: str | DependencySpec | None = None,
+    ) -> PostgresBlock:
         """Create a PostgreSQL query block."""
+        # Convert dependency to string format for storage
+        if dependency is None:
+            dep_value = "{}"
+        elif isinstance(dependency, str):
+            dep_value = dependency
+        else:
+            dep_value = dependency.to_json_string()
+
         return PostgresBlock(
             id=uuid4(),
             props=PostgresProps(
                 name=name,
                 query=query,
                 uri=uri,
-                autoRefresh=0,
-                dependency="{}",
+                autoRefresh=auto_refresh,
+                dependency=dep_value,
             ),
         )
 
     @staticmethod
     def http(
         name: str,
-        url: str = "",
+        url: str,
         verb: Literal["GET", "POST", "PUT", "DELETE", "PATCH"] = "GET",
         body: str = "",
-        headers: str = "{}",
+        headers: str = "",
+        dependency: str | DependencySpec | None = None,
     ) -> HttpBlock:
         """Create an HTTP request block."""
+        # Convert dependency to string format for storage
+        if dependency is None:
+            dep_value = "{}"
+        elif isinstance(dependency, str):
+            dep_value = dependency
+        else:
+            dep_value = dependency.to_json_string()
+
         return HttpBlock(
             id=uuid4(),
             props=HttpProps(
@@ -339,58 +385,53 @@ class BlockBuilder:
                 verb=verb,
                 body=body,
                 headers=headers,
-                dependency="{}",
+                dependency=dep_value,
             ),
         )
 
     @staticmethod
-    def image(name: str = "", url: str = "", caption: str = "") -> ImageBlock:
+    def image(name: str, url: str, caption: str = "") -> ImageBlock:
         """Create an image block."""
         return ImageBlock(
             id=uuid4(),
-            props=MediaProps(
-                name=name,
-                url=url,
-                caption=caption,
-                showPreview=True,
-            ),
+            props=MediaProps(name=name, url=url, caption=caption),
         )
 
     @staticmethod
-    def video(name: str = "", url: str = "", caption: str = "") -> VideoBlock:
+    def video(url: str, name: str = "", caption: str = "") -> VideoBlock:
         """Create a video block."""
         return VideoBlock(
             id=uuid4(),
-            props=MediaProps(
-                name=name,
-                url=url,
-                caption=caption,
-                showPreview=True,
-            ),
+            props=MediaProps(name=name, url=url, caption=caption),
         )
 
     @staticmethod
-    def audio(name: str = "", url: str = "", caption: str = "") -> AudioBlock:
+    def audio(url: str, name: str = "", caption: str = "") -> AudioBlock:
         """Create an audio block."""
         return AudioBlock(
             id=uuid4(),
-            props=MediaProps(
-                name=name,
-                url=url,
-                caption=caption,
-                showPreview=True,
-            ),
+            props=MediaProps(name=name, url=url, caption=caption),
         )
 
     @staticmethod
-    def file(name: str = "", url: str = "", caption: str = "") -> FileBlock:
+    def file(name: str, url: str, caption: str = "") -> FileBlock:
         """Create a file attachment block."""
         return FileBlock(
             id=uuid4(),
-            props=FileProps(
-                name=name,
-                url=url,
-                caption=caption,
-                backgroundColor="default",
+            props=FileProps(name=name, url=url, caption=caption),
+        )
+
+    @staticmethod
+    def runbook_link(
+        runbook_id: str, block_id: str | None = None, text: str = ""
+    ) -> RunbookLinkContent:
+        """Create a runbook link content element."""
+        from uuid import UUID
+
+        return RunbookLinkContent(
+            props=RunbookLinkProps(
+                runbookId=UUID(runbook_id),
+                blockId=UUID(block_id) if block_id else None,
             ),
+            text=text,
         )

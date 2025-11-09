@@ -3,6 +3,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 from pydantic import BaseModel, ConfigDict, Field
+from uuid import UUID
 
 
 class TextStyles(BaseModel):
@@ -23,11 +24,21 @@ class TextContent(BaseModel):
     styles: TextStyles = Field(default_factory=TextStyles)
 
 
+class RunbookLinkProps(BaseModel):
+    """Properties for runbook link content."""
+
+    model_config = ConfigDict(populate_by_name=True)
+
+    runbook_id: UUID = Field(alias="runbookId")
+    block_id: UUID | None = Field(alias="blockId", default=None)
+
+
 class RunbookLinkContent(BaseModel):
-    """Link to another runbook."""
+    """Link to another runbook or specific block within a runbook."""
 
     type: Literal["runbook-link"] = "runbook-link"
-    props: dict[str, Any]
+    props: RunbookLinkProps
+    text: str = ""
 
 
 InlineContent = TextContent | RunbookLinkContent

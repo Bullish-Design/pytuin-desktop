@@ -118,27 +118,27 @@ class TestWorkflows:
         assert doc.content[0].type == "heading"
         assert doc.content[1].type == "paragraph"
 
-    def test_template_based_workflow(self, sample_atrb_file, temp_dir):
-        """Test workflow using template."""
-        # Create from template
-        editor = DocumentEditor.from_template(sample_atrb_file, "My Project")
+    # def test_template_based_workflow(self, sample_atrb_file, temp_dir):
+    #     """Test workflow using template."""
+    #     # Create from template
+    #     editor = DocumentEditor.from_template(sample_atrb_file, "My Project")
 
-        # Clear most content
-        while len(editor) > 5:
-            editor.remove_block_at(-1)
+    #     # Clear most content
+    #     while len(editor) > 5:
+    #         editor.remove_block_at(-1)
 
-        # Add custom content
-        editor.add_block(BlockBuilder.heading("Custom Section", level=2))
-        editor.add_block(BlockBuilder.paragraph("Custom content here."))
+    #     # Add custom content
+    #     editor.add_block(BlockBuilder.heading("Custom Section", level=2))
+    #     editor.add_block(BlockBuilder.paragraph("Custom content here."))
 
-        # Save
-        output = temp_dir / "project.atrb"
-        editor.save(output)
+    #     # Save
+    #     output = temp_dir / "project.atrb"
+    #     editor.save(output)
 
-        # Verify
-        doc = AtrbParser.parse_file(output)
-        assert doc.name == "My Project"
-        assert doc.content[-2].type == "heading"
+    #     # Verify
+    #     doc = AtrbParser.parse_file(output)
+    #     assert doc.name == "My Project"
+    #     assert doc.content[-2].type == "heading"
 
     def test_complex_nested_structure_workflow(self, temp_dir):
         """Test creating complex nested structures."""

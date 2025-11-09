@@ -3,7 +3,7 @@ from __future__ import annotations
 
 from typing import Any, Literal
 from uuid import UUID
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ConfigDict
 
 from pytuin_desktop.models.base import BaseBlock
 from pytuin_desktop.models.content import InlineContent, TableContent
@@ -112,8 +112,10 @@ class DirectoryBlock(BaseBlock):
 class LocalDirectoryBlock(BaseBlock):
     """Local directory block."""
 
+    model_config = ConfigDict(populate_by_name=True)
     type: Literal["local-directory"] = "local-directory"
-    props: dict[str, Any] = Field(default_factory=dict)
+    # props: dict[str, Any] = Field(default_factory=dict)
+    props: DirectoryProps = Field(default_factory=DirectoryProps)
 
 
 class DropdownBlock(BaseBlock):

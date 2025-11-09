@@ -2,7 +2,8 @@
 from __future__ import annotations
 
 from typing import Any, Literal
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pytuin_desktop.models.dependency import DependencySpec
 
 
 class TextProps(BaseModel):
@@ -46,7 +47,17 @@ class ScriptProps(BaseModel):
     name: str
     code: str
     output_visible: bool = Field(alias="outputVisible", default=True)
-    dependency: str
+    dependency: DependencySpec | str
+
+    @field_validator("dependency", mode="before")
+    @classmethod
+    def validate_dependency(cls, v):
+        """Parse dependency from JSON string if needed."""
+        if isinstance(v, str):
+            return DependencySpec.from_json_string(v)
+        elif isinstance(v, dict):
+            return DependencySpec(**v)
+        return v
 
 
 class RunProps(BaseModel):
@@ -60,7 +71,17 @@ class RunProps(BaseModel):
     pty: str
     global_: bool = Field(alias="global", default=False)
     output_visible: bool = Field(alias="outputVisible", default=True)
-    dependency: str
+    dependency: DependencySpec | str
+
+    @field_validator("dependency", mode="before")
+    @classmethod
+    def validate_dependency(cls, v):
+        """Parse dependency from JSON string if needed."""
+        if isinstance(v, str):
+            return DependencySpec.from_json_string(v)
+        elif isinstance(v, dict):
+            return DependencySpec(**v)
+        return v
 
 
 class EnvProps(BaseModel):
@@ -92,7 +113,8 @@ class VarDisplayProps(BaseModel):
 class DirectoryProps(BaseModel):
     """Props for directory blocks."""
 
-    path: str
+    model_config = ConfigDict(populate_by_name=True)
+    path: str = Field(default="")
 
 
 class DropdownProps(BaseModel):
@@ -119,7 +141,17 @@ class SQLiteProps(BaseModel):
     query: str
     uri: str
     auto_refresh: int = Field(alias="autoRefresh", default=0)
-    dependency: str
+    dependency: DependencySpec | str
+
+    @field_validator("dependency", mode="before")
+    @classmethod
+    def validate_dependency(cls, v):
+        """Parse dependency from JSON string if needed."""
+        if isinstance(v, str):
+            return DependencySpec.from_json_string(v)
+        elif isinstance(v, dict):
+            return DependencySpec(**v)
+        return v
 
 
 class PostgresProps(BaseModel):
@@ -131,7 +163,17 @@ class PostgresProps(BaseModel):
     query: str
     uri: str
     auto_refresh: int = Field(alias="autoRefresh", default=0)
-    dependency: str
+    dependency: DependencySpec | str
+
+    @field_validator("dependency", mode="before")
+    @classmethod
+    def validate_dependency(cls, v):
+        """Parse dependency from JSON string if needed."""
+        if isinstance(v, str):
+            return DependencySpec.from_json_string(v)
+        elif isinstance(v, dict):
+            return DependencySpec(**v)
+        return v
 
 
 class HttpProps(BaseModel):
@@ -142,7 +184,17 @@ class HttpProps(BaseModel):
     verb: Literal["GET", "POST", "PUT", "DELETE", "PATCH"]
     body: str
     headers: str
-    dependency: str
+    dependency: DependencySpec | str
+
+    @field_validator("dependency", mode="before")
+    @classmethod
+    def validate_dependency(cls, v):
+        """Parse dependency from JSON string if needed."""
+        if isinstance(v, str):
+            return DependencySpec.from_json_string(v)
+        elif isinstance(v, dict):
+            return DependencySpec(**v)
+        return v
 
 
 class CheckListProps(TextProps):
