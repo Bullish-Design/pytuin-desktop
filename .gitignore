@@ -1,3 +1,56 @@
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.lock
+
+
+# direnv
+.direnv
+.direnv/**
+
+# pre-commit
+.pre-commit-config.yaml
+
+# Env
+.env
+.envrc
+*.yaml
+*.nix
+*.db
+*.sqlite
+*.dot.png
+*.dot
+**.lock
+
+# Logs
+*log/*
+.log
+*logs*
+log/**
+*code_output*
+startup_files.txt
+
+# Misc
+**.egg-info**
+*.egg-info*
+*code_output/*
+**/__pycache__/**
+**.pyc
+
+# Devenv
+.devenv*
+devenv.local.nix
+devenv.local.yaml
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
+
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
