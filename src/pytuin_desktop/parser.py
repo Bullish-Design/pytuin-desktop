@@ -1,4 +1,4 @@
-# src/atrb_parser/parser.py
+# src/pytuin_desktop/parser.py
 from __future__ import annotations
 
 from pathlib import Path
