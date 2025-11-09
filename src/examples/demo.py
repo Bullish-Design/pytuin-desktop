@@ -1,4 +1,6 @@
 #!/usr/bin/env -S uv run --script
+# src/exampels/demo.py
+#
 # /// script
 # requires-python = ">=3.10"
 # dependencies = [

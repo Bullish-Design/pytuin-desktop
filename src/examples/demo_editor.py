@@ -1,4 +1,7 @@
 #!/usr/bin/env -S uv run --script
+#
+# src/examples/demo_editor.py
+#
 # /// script
 # requires-python = ">=3.10"
 # dependencies = [

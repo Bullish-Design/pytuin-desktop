@@ -1,4 +1,4 @@
-# src/atrb_parser/models/base.py
+# src/pytuin_desktop/models/base.py
 from __future__ import annotations
 
 from typing import Any
