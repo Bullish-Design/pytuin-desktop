@@ -1,0 +1,20 @@
+id: "4ff77308-57bc-4d39-9b9f-52d733367eff"
+name: "Single Paragraph Test"
+version: 1
+content:
+- id: "25252615-837d-4b88-971f-6abfcd7189e7"
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "This is a test paragraph with some content."
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []

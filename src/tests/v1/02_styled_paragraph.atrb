@@ -1,0 +1,20 @@
+id: "b19b95d5-ba31-4019-9105-2232b23673d6"
+name: "Styled Paragraph Test"
+version: 1
+content:
+- id: "1593e36a-7682-4855-80a8-4636e6fe6a53"
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Bold paragraph text"
+    styles:
+      bold: true
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
