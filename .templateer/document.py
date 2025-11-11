@@ -21,58 +21,7 @@ class EmptyDocumentTemplate(TemplateModel):
     name: str
     version: int = 1
     
-    
-# DOCUMENT_TEMPLATE = """id: "{{ document_id }}"
-# name: "{{ name }}"
-# version: {{ version }}
-# content:
-# {% for block in blocks %}
-#   - {{ block|indent(4, true) }}
-# {% endfor %}
-# """
 
-# DOCUMENT_TEMPLATE = """id: "{{ document_id }}"
-# name: "{{ name }}"
-# version: {{ version }}
-# content:
-# {% if blocks|length == 0 %}
-#   []
-# {% else %}
-# {% for block in blocks %}
-#   -
-# {{ block|indent(4, true) }}
-# {% endfor %}
-# {% endif %}
-# """
-
-# DOCUMENT_TEMPLATE = """id: "{{ document_id }}"
-# name: "{{ name }}"
-# version: {{ version }}
-# content:
-# {% if blocks|length == 0 %}
-#   []
-# {% else %}
-# {% for block in blocks %}
-# {%- set lines = block.split('\\n') -%}
-#   - {{ lines[0] }}
-# {{ (lines[1:] | join('\\n')) | indent(4, true) }}
-# {% endfor %}
-# {% endif %}
-# """
-
-# DOCUMENT_TEMPLATE = """id: "{{ document_id }}"
-# name: "{{ name }}"
-# version: {{ version }}
-# content:
-# {% if blocks|length == 0 %}
-#   []
-# {% else %}
-# {# Indent the entire list item (dash + mapping) by 2 spaces #}
-# {% for block in blocks -%}
-# {{ ("- " ~ (block | replace('\\n', '\\n  '))) | indent(2, True) }}
-# {% endfor %}
-# {% endif %}
-# """
 
 DOCUMENT_TEMPLATE = """id: "{{ document_id }}"
 name: "{{ name }}"

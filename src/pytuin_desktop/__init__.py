@@ -1,4 +1,12 @@
-# src/pytuin_desktop/__init__.py
 """Pytuin Desktop - .atrb file library built on Templateer."""
 
-__version__ = "0.2.0"
+from .parser import AtrbParser
+from .models import AtrbDocument, BaseBlock
+
+__version__ = "0.2.1"
+
+__all__ = [
+    "AtrbParser",
+    "AtrbDocument",
+    "BaseBlock",
+]

@@ -1,0 +1,14 @@
+id: "69b4f100-3466-4674-bb13-845b21763515"
+name: "Script Test"
+version: 1
+content:
+- id: "e291b486-eeaf-4c1e-a805-2b5d3c37e654"
+  type: script
+  props:
+    interpreter: bash
+    outputVariable: 
+    name: hello_script
+    code: "echo \u0027Hello from script\u0027"
+    outputVisible: true
+    dependency: "{\"pip\": [], \"npm\": []}"
+  children: []

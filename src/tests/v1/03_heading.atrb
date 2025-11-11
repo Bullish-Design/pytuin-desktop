@@ -1,16 +1,18 @@
-id: "3dfc825d-46c4-459d-b590-e07217167731"
-name: "Single Paragraph Test"
+id: "9f87e445-e78b-4bf8-be86-dffe13bcdc68"
+name: "Heading Test"
 version: 1
 content:
-- id: "7afdc25f-73f4-4dcb-9b32-82ec2d8f80fc"
-  type: paragraph
+- id: "42aa825a-1256-47e8-961d-1541531c5b89"
+  type: heading
   props:
+    level: 1
+    isToggleable: false
     textColor: default
     backgroundColor: default
     textAlignment: left
   content:
   - type: text
-    text: "This is a test paragraph with some content."
+    text: "Main Heading"
     styles:
       bold: false
       italic: false
