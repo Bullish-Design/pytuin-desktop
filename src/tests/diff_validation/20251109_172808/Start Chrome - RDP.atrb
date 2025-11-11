@@ -1,0 +1,126 @@
+id: 019a07f7-7bb7-74d1-8d1a-99e8a385c43e
+name: Start Chrome - RDP
+version: 1
+content:
+- id: f6596d68-4414-48f3-b502-eb54c9a00b17
+  type: heading
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+    level: 1
+    isToggleable: false
+  content:
+  - type: text
+    text: Start Chrome - RDP
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: ef61d5ae-df95-41fa-b1d0-94603a1ea0ca
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: 'Set Current Directory to Home:'
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children:
+  - id: 2b8d3dd3-ceea-45cb-b1dd-178a79090114
+    type: bulletListItem
+    props:
+      textColor: default
+      backgroundColor: default
+      textAlignment: left
+    content:
+    - type: text
+      text: Needed for correct user profile directory location
+      styles:
+        bold: false
+        italic: false
+        underline: false
+        strikethrough: false
+        code: false
+    children: []
+  - id: c05399e0-c9a3-464c-a0fd-8ed59d5b54c0
+    type: bulletListItem
+    props:
+      textColor: default
+      backgroundColor: default
+      textAlignment: left
+    content:
+    - type: text
+      text: 'TODO: Update terminal command to use appropriate profile dir via CLI'
+      styles:
+        bold: false
+        italic: false
+        underline: false
+        strikethrough: false
+        code: false
+    children: []
+- id: 7590e4d0-e603-4ef6-85a6-5070a1f0cc58
+  type: local-directory
+  props:
+    path: ''
+  children: []
+- id: debaba0c-6f75-4831-afe3-a86659fb1c65
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 30bd3f34-0288-43fe-9045-c58b71305e9d
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: 'Start Chrome with RDP:'
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: e3a9998c-e639-4151-aa9d-39204258b8c4
+  type: run
+  props:
+    type: bash
+    name: Terminal 1
+    code: google-chrome-stable --remote-debugging-port=9222 --user-data-dir=~/.cache/chrome-debug
+    pty: ''
+    global: false
+    outputVisible: true
+    dependency: '{}'
+  children: []
+- id: 8c39df99-fb99-479b-b743-4cdf30c5accb
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 8c7530cc-cc53-42fc-8b15-94277df9d706
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []

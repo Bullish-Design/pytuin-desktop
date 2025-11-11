@@ -1,0 +1,54 @@
+id: 019a6020-91ec-7b02-9b8f-b242f8518313
+name: Copy Obsidian Contents
+version: 1
+content:
+- id: f6596d68-4414-48f3-b502-eb54c9a00b17
+  type: heading
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+    level: 1
+    isToggleable: false
+  children: []
+  content:
+  - type: text
+    text: Copy Obsidian Contents
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: 4b4af41c-864b-4359-adbb-e4fbbd38937c
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content:
+  - type: text
+    text: Copy specific files/directories from vault via yaml file
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: 3ab599f8-d62f-48a2-9f4a-ef253c65a3f6
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []
+- id: 30bd3f34-0288-43fe-9045-c58b71305e9d
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []

@@ -1,0 +1,54 @@
+id: 019a6021-39ea-7a92-8da3-131a63bfbd75
+name: Validate Hugo Directory Structure
+version: 1
+content:
+- id: f6596d68-4414-48f3-b502-eb54c9a00b17
+  type: heading
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+    level: 1
+    isToggleable: false
+  children: []
+  content:
+  - type: text
+    text: Validate Hugo Directory Structure
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: 72c38d2e-ae23-4904-a491-3d0acd30c1f9
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content:
+  - type: text
+    text: Validates copied obsidian vault files
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: 4c54ee6a-3d10-414e-99d5-c2295e9a1f9a
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []
+- id: 30bd3f34-0288-43fe-9045-c58b71305e9d
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []

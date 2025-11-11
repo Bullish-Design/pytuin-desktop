@@ -1,0 +1,130 @@
+id: 019a6022-2f20-7092-9cf1-0fc40d8c6621
+name: Validate Obsidian Frontmatter
+version: 1
+content:
+- id: f6596d68-4414-48f3-b502-eb54c9a00b17
+  type: heading
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+    level: 1
+    isToggleable: false
+  children: []
+  content:
+  - type: text
+    text: Validate Obsidian Frontmatter
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: 3f3d7735-c4c1-4cf7-83fa-a1cdf8cc27c3
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []
+- id: 833b687b-1cfc-4143-83ed-9d330107686e
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content:
+  - type: text
+    text: Test
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: 99a46eee-74ba-4978-ae58-b445f907c0bd
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []
+- id: 30bd3f34-0288-43fe-9045-c58b71305e9d
+  type: toggleListItem
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children:
+  - id: 77c9dcc1-83e8-41b9-a382-409a09640001
+    type: script
+    props:
+      interpreter: /run/current-system/sw/bin/zsh -lc
+      outputVariable: ''
+      name: Script 2
+      code: echo {{ doc.content | shellquote }}
+      outputVisible: true
+      dependency: '{}'
+    children: []
+  - id: e64f9783-bb97-4ad8-9e1e-f981633e07b6
+    type: paragraph
+    props:
+      textColor: default
+      backgroundColor: default
+      textAlignment: left
+    children: []
+    content: []
+  content: []
+- id: 39af9cd6-dd8e-425e-ad2c-8a798424fa60
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content:
+  - type: text
+    text: Ensures proper frontmatter for hugo website
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: c5fac9d6-5492-4e23-bfe7-45ad56fb3f8e
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []
+- id: 8d89de52-25f7-40ff-84e3-1984562e2234
+  type: script
+  props:
+    interpreter: /run/current-system/sw/bin/zsh -lc
+    outputVariable: ''
+    name: Script 1
+    code: echo {{ workspace.root | shellquote }}
+    outputVisible: true
+    dependency: '{}'
+  children: []
+- id: 32b7b548-3d19-42f6-b4c8-5c91c0e39396
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []
+- id: e1a28cdc-5880-4ac3-ae8a-2a7020190bb3
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []

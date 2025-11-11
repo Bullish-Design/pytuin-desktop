@@ -1,0 +1,340 @@
+id: 019a0818-1ef9-7c61-b843-863dcc7a3ff1
+name: Edit Story
+version: 1
+content:
+- id: f6596d68-4414-48f3-b502-eb54c9a00b17
+  type: heading
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+    level: 1
+    isToggleable: false
+  content:
+  - type: text
+    text: Edit Story
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: c96e4b5e-b5a3-4c1d-ab8b-097b0982e603
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: 'The actual workflow for editing individual stories. Comprised of:'
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: 07eace4c-0756-44b1-bebf-a8ae9aa8e3a5
+  type: bulletListItem
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: Getting latest story detail from "edit story" web page
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: 7f3ad783-d6c2-407a-8eb5-b8c390d2dc71
+  type: bulletListItem
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: Checking story contents for word/line/vocab/unreadable counts
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: f419061e-9dff-48ba-880a-b9201b45861e
+  type: bulletListItem
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: Creating LLM edit request template from story contents/vocab list/check
+      report
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: 586fa502-7c0f-44eb-ac54-4af8fa84074c
+  type: bulletListItem
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: 'Iteration '
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: 7f9f2bff-5f4c-42e2-93c9-33f24fca2dd9
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 206490cb-7b50-494a-8599-9e18f83c7ee4
+  type: horizontal_rule
+  props: {}
+  children: []
+- id: d93b38c0-2f21-4f50-a7e5-0f0552f2dfc7
+  type: local-directory
+  props:
+    path: ''
+  children: []
+- id: 99545075-8bae-4708-9fa7-dd2fd9bd2509
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 91ffed7d-837a-4332-88b2-b49cb4034ea1
+  type: script
+  props:
+    interpreter: /run/current-system/sw/bin/zsh -lc
+    outputVariable: id_list
+    name: Get_Story_IDs
+    code: ''
+    outputVisible: true
+    dependency: '{}'
+  children: []
+- id: 3d759412-2138-48d4-b6c9-37ab5d12d14a
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 7a9ac8b7-6855-44e3-940f-ed43cf4a5568
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 05f032e7-fcf4-4f1f-9103-cb09980972e1
+  type: var_display
+  props:
+    name: devenv_state
+  children: []
+- id: 519f4518-9d6a-4e7a-aeb6-b3a3887ae898
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 74d38eb5-084a-4299-8d77-3ff2a7b188b8
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 699098e3-194c-447a-b0c2-4bd34f95775f
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 6f546d57-bd54-4a13-86cc-2d4642ea1fcd
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 72c06aab-468c-48ce-bbfa-fc83a74f6ae0
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: cd18e4ed-5bb8-41de-9501-049b2546b679
+  type: horizontal_rule
+  props: {}
+  children: []
+- id: 1bbba980-a204-44bd-a664-b175e9c4f2f0
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: 'TODO:'
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: ced81493-e207-4df1-a012-f6e29a27d20a
+  type: bulletListItem
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: Implement api llm loop without using web interface
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: 1e3e91fc-9cee-4290-af95-2cac6482ce30
+  type: bulletListItem
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: 'Add automatic Git commits + git hook based check+revise workflow:'
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children:
+  - id: e5272d10-af24-4cd8-95b9-1da2011d483d
+    type: bulletListItem
+    props:
+      textColor: default
+      backgroundColor: default
+      textAlignment: left
+    content:
+    - type: text
+      text: 'i.e.- On story contents commit, run check report. Then:'
+      styles:
+        bold: false
+        italic: false
+        underline: false
+        strikethrough: false
+        code: false
+    children:
+    - id: b8abf220-7831-471f-af81-61107a00aa04
+      type: bulletListItem
+      props:
+        textColor: default
+        backgroundColor: default
+        textAlignment: left
+      content:
+      - type: text
+        text: Plot arc summarizer + recommendations to improve arc
+        styles:
+          bold: false
+          italic: false
+          underline: false
+          strikethrough: false
+          code: false
+      children: []
+    - id: e647492d-51d3-4fe1-8598-700491fe3461
+      type: bulletListItem
+      props:
+        textColor: default
+        backgroundColor: default
+        textAlignment: left
+      content:
+      - type: text
+        text: LLM recommendations for replacing unreadable words based on vocab list
+        styles:
+          bold: false
+          italic: false
+          underline: false
+          strikethrough: false
+          code: false
+      children: []
+    - id: 48724a92-77e7-4de3-a428-161cc2408a60
+      type: bulletListItem
+      props:
+        textColor: default
+        backgroundColor: default
+        textAlignment: left
+      content:
+      - type: text
+        text: Search for existing sentences from same vocab level + topic
+        styles:
+          bold: false
+          italic: false
+          underline: false
+          strikethrough: false
+          code: false
+      children: []
+    - id: 15b00b0b-72f3-4115-bd36-e920ad78a4a9
+      type: bulletListItem
+      props:
+        textColor: default
+        backgroundColor: default
+        textAlignment: left
+      content:
+      - type: text
+        text: Automatic LLM API request with those sentences as context for sentences
+          appropriate for the given topic
+        styles:
+          bold: false
+          italic: false
+          underline: false
+          strikethrough: false
+          code: false
+      children: []
+- id: 30bd3f34-0288-43fe-9045-c58b71305e9d
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []

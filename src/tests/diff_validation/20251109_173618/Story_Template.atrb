@@ -1,0 +1,76 @@
+id: 019a0927-77dd-7052-b647-8fbdb646070e
+name: Story_Template
+version: 1
+content:
+- id: f6596d68-4414-48f3-b502-eb54c9a00b17
+  type: heading
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+    level: 1
+    isToggleable: false
+  content:
+  - type: text
+    text: Story_Template
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: fba95a67-7d2a-44c3-a083-0fa398ce0740
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: 'Story ID:'
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: 393394cf-e44b-44d4-8c3d-67e72ae43d34
+  type: var
+  props:
+    name: story_id
+    value: ''
+  children: []
+- id: 30bd3f34-0288-43fe-9045-c58b71305e9d
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 9734a558-6b7c-45d3-809a-693a2e9c984c
+  type: numberedListItem
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 674b7ac4-108e-4d80-a5ee-386f2b9d95e1
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []
+- id: 47103c83-6aac-4c5e-9759-14ebccba0fd7
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content: []
+  children: []

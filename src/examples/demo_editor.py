@@ -16,6 +16,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+import uuid
 import sys
 
 sys.path.insert(0, str(Path(__file__).parent / "src"))
@@ -29,6 +30,8 @@ atuin_test_output_dir = "/home/andrew/Documents/Atuin Runbooks/03_Libraries/Test
 
 block_spec = f"{test_dir}/Block_Spec.atrb"
 demo_output = f"{atuin_test_output_dir}/Edited_spec.atrb"
+
+touch_file = "/home/andrew/Documents/Atuin Runbooks/03_Libraries/atuin.toml"
 
 
 def demo_add_blocks():
@@ -59,6 +62,7 @@ def demo_add_blocks():
     print(f"After additions: {len(editor)} blocks")
     print(f"Block at index 5: {type(editor.get_block(5)).__name__}\n")
 
+    editor.document.id = uuid.uuid4()  # Update document ID
     # Save to new file
     editor.save(demo_output)
     print("Saved to modified_spec.atrb\n")
@@ -100,12 +104,18 @@ def demo_create_from_template():
     print("=== Demo: Create from Template ===\n")
 
     project_name = "My Project"
+
+    # Load OG template doc
+    block_spec_doc = DocumentEditor.from_file(block_spec)
     # Create new doc based on Block_Spec
     editor = DocumentEditor.from_template(block_spec, project_name)
 
+    print(f"Template loaded: {editor.document.name} with {len(editor)} blocks.")
+    print(f"    Initial ID: {block_spec_doc.document.id}")
+    print(f"    TemplateID: {editor.document.id}\n")
     # Remove most blocks to start fresh
-    while len(editor) > 3:
-        editor.remove_block_at(-1)
+    # while len(editor) > 3:
+    #    editor.remove_block_at(-1)
 
     # Add our own content
     editor.add_block(BlockBuilder.heading("Project Setup", level=1))
@@ -131,26 +141,27 @@ def demo_create_from_template():
 
     # Save
     editor.save(f"{atuin_test_output_dir}/{project_name}.atrb")
-    print("Saved to my_project.atrb\n")
+    print(f"Saved to {project_name}.atrb\n")
 
 
 def demo_create_empty():
     """Demo creating document from scratch."""
     print("=== Demo: Create Empty Document ===\n")
 
-    editor = DocumentEditor.create("Quick Notes")
+    project_name = "Quick Notes"
+    editor = DocumentEditor.create(project_name)
 
     # Build a simple document
-    editor.add_block(BlockBuilder.heading("Quick Notes", level=1))
+    editor.add_block(BlockBuilder.heading(project_name, level=1))
     editor.add_block(BlockBuilder.paragraph("Today's tasks:"))
 
-    # Checklist
-    editor.add_block(BlockBuilder.checklist_item("Review pull requests", checked=True))
-    editor.add_block(BlockBuilder.checklist_item("Update documentation", checked=False))
-    editor.add_block(BlockBuilder.checklist_item("Deploy to staging", checked=False))
+    ## Checklist
+    # editor.add_block(BlockBuilder.checklist_item("Review pull requests", checked=True))
+    # editor.add_block(BlockBuilder.checklist_item("Update documentation", checked=False))
+    # editor.add_block(BlockBuilder.checklist_item("Deploy to staging", checked=False))
 
-    editor.add_block(BlockBuilder.horizontal_rule())
-    editor.add_block(BlockBuilder.quote("Remember to take breaks!"))
+    # editor.add_block(BlockBuilder.horizontal_rule())
+    # editor.add_block(BlockBuilder.quote("Remember to take breaks!"))
 
     print(f"Created: {editor.document.name}")
     print(f"Blocks: {len(editor)}\n")
@@ -158,13 +169,17 @@ def demo_create_empty():
     # Show YAML output instead of saving
     print("Generated YAML:")
     print(editor.to_string()[:500] + "...\n")
+    # Save
+    editor.save(f"{atuin_test_output_dir}/{project_name}.atrb")
+    print(f"Saved to {project_name}.atrb\n")
 
 
 def main():
-    demo_add_blocks()
-    demo_reorder_blocks()
-    demo_create_from_template()
+    # demo_add_blocks()
+    # demo_reorder_blocks()
+    # demo_create_from_template()
     demo_create_empty()
+    Path(touch_file).touch(exist_ok=True)
 
     print("=== All demos complete! ===")
     print(f"\nGenerated files in {test_dir}/:")

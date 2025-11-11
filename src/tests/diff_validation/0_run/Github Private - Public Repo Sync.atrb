@@ -1,0 +1,56 @@
+id: 019a6018-00ab-7c13-881d-d729bdd343c0
+name: Github Private -> Public Repo Sync
+version: 1
+content:
+- id: f6596d68-4414-48f3-b502-eb54c9a00b17
+  type: heading
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+    level: 1
+    isToggleable: false
+  children: []
+  content:
+  - type: text
+    text: Github Private -> Public Repo Sync
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: 30bd3f34-0288-43fe-9045-c58b71305e9d
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content:
+  - type: text
+    text: A Github Action to Sync specific content from a private repository to a
+      public one. Useful for having a private "work in process" website content with
+      a "main" branch that gets published via another github account.
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: e912faf9-68bd-4eae-a156-a5bbafd9c0a8
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []
+- id: 1e79b276-9cb3-4528-b55c-3d0dd7450e3c
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []

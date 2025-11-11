@@ -1,0 +1,48 @@
+id: 019a12cf-1a98-79c3-b7ad-67e3d8a63655
+name: Scrape Story Page
+version: 1
+content:
+- id: f6596d68-4414-48f3-b502-eb54c9a00b17
+  type: heading
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+    level: 1
+    isToggleable: false
+  children: []
+  content:
+  - type: text
+    text: Scrape Story Page
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: b02e3895-2a55-4a86-b298-17698786d916
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content:
+  - type: text
+    text: Takes a given story ID, uses that to get the story Topic, Vocab Level, Vocab
+      List, Story Contents, and then goes to the next page and gets the vocab check
+      data
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+- id: 30bd3f34-0288-43fe-9045-c58b71305e9d
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  children: []
+  content: []

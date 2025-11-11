@@ -26,7 +26,9 @@ class AtrbWriter:
     def to_string(document: AtrbDocument) -> str:
         """Convert an AtrbDocument to YAML string."""
         data = AtrbWriter._serialize_document(document)
-        return yaml.dump(data, default_flow_style=False, allow_unicode=True, sort_keys=False)
+        return yaml.dump(
+            data, default_flow_style=False, allow_unicode=True, sort_keys=False
+        )
 
     @staticmethod
     def _serialize_document(document: AtrbDocument) -> dict[str, Any]:
@@ -35,7 +37,9 @@ class AtrbWriter:
             "id": str(document.id),
             "name": document.name,
             "version": document.version,
-            "content": [AtrbWriter._serialize_block(block) for block in document.content],
+            "content": [
+                AtrbWriter._serialize_block(block) for block in document.content
+            ],
         }
 
     @staticmethod
@@ -62,4 +66,18 @@ class AtrbWriter:
                 AtrbWriter._serialize_block(child) for child in block.children
             ]
 
-        return block_dict
+        # Reorder keys: id, type, props, content, children (children must be last)
+        ordered = {}
+        for key in ["id", "type", "props", "content", "children"]:
+            if key in block_dict:
+                ordered[key] = block_dict[key]
+
+        # Add any remaining keys (shouldn't happen, but for safety)
+        for key in block_dict:
+            if key not in ordered:
+                print(f"    *** Unexpected key in block serialization: {key}")
+                ordered[key] = block_dict[key]
+
+        return ordered
+
+        # return block_dict
