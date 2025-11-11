@@ -1,8 +1,8 @@
-id: "f7352c74-7bbf-4569-b801-c1725980c14d"
+id: "da05bb4e-46a5-4a8a-a2c7-f5c1179f41c0"
 name: "Heading Test"
 version: 1
 content:
-- id: "0d86fe89-7c0f-4056-a09c-f37415a2ac91"
+- id: "a0976858-c4cd-46b0-b16e-fc2e5cf97c69"
   type: heading
   props:
     level: 1

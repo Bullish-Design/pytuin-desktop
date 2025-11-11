@@ -1,18 +1,20 @@
-id: "bfc2bb9f-98e1-4da6-b276-37e92b3b391f"
-name: "Styled Paragraph Test"
+id: "9964e768-94ee-4c93-8db3-079349520197"
+name: "Template Direct Usage Test"
 version: 1
 content:
-- id: "b09d80c1-c187-4b0d-824d-aad66f9ff279"
-  type: paragraph
+- id: "e0fe3d3f-cb3c-4bf3-92b4-3885b6d19f2d"
+  type: heading
   props:
+    level: 1
+    isToggleable: false
     textColor: default
     backgroundColor: default
     textAlignment: left
   content:
   - type: text
-    text: "Bold paragraph text"
+    text: "Direct Template Usage"
     styles:
-      bold: true
+      bold: false
       italic: false
       underline: false
       strikethrough: false

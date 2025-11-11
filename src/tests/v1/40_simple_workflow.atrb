@@ -1,0 +1,38 @@
+id: "d14259ea-f84f-4524-a9ef-a1467ed5b402"
+name: "Simple Workflow Test"
+version: 1
+content:
+- id: "acf492a4-a9a3-4ebe-9eec-20d593ec8ceb"
+  type: heading
+  props:
+    level: 1
+    isToggleable: false
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Title"
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "a89e70df-2323-48c7-bd64-25e4524d1927"
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Content"
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
