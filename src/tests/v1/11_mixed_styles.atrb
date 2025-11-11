@@ -1,0 +1,44 @@
+id: "e06c8d2e-5770-4274-9ac0-6e0579462710"
+name: "Mixed Styles Test"
+version: 1
+content:
+- id: "2b998d3d-f101-4687-897e-0397d99da1d8"
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Bold text "
+    styles:
+      bold: true
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  - type: text
+    text: "italic text "
+    styles:
+      bold: false
+      italic: true
+      underline: false
+      strikethrough: false
+      code: false
+  - type: text
+    text: "inline code "
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: true
+  - type: text
+    text: "normal text"
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []

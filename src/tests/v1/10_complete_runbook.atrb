@@ -1,0 +1,142 @@
+id: "87a64c7f-75d6-4403-95c3-a785641cc916"
+name: "Complete Server Setup Runbook"
+version: 1
+content:
+- id: "3af59a49-0ce1-464e-97ea-5fd8f0533507"
+  type: heading
+  props:
+    level: 1
+    isToggleable: false
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Server Setup Runbook"
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "0ce6f646-ac83-4157-b41c-4f7e2d15a897"
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "This runbook guides you through server setup and configuration."
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "3d762b4a-cefa-4eee-b4b2-62e5e8d23a47"
+  type: horizontal_rule
+  props: {}
+  children: []
+- id: "c1a829e9-e61f-44da-a07c-084f2cc0d5b0"
+  type: heading
+  props:
+    level: 2
+    isToggleable: false
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Prerequisites"
+    styles:
+      bold: true
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "09547cbc-f7db-45d4-8208-90a956591625"
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Before starting, ensure you have root access and network connectivity."
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "1cb57e22-291e-4c44-9948-858b9eb7b12e"
+  type: heading
+  props:
+    level: 2
+    isToggleable: false
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Installation"
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "2c1e642c-58a8-40cb-b9df-c4b6f0b58f8e"
+  type: script
+  props:
+    interpreter: bash
+    outputVariable: 
+    name: update_system
+    code: "apt-get update \u0026\u0026 apt-get upgrade -y"
+    outputVisible: true
+    dependency: "{\"pip\": [], \"npm\": []}"
+  children: []
+- id: "734eba8d-40a1-458f-ba85-f9e1e7d4e40f"
+  type: script
+  props:
+    interpreter: bash
+    outputVariable: 
+    name: install_docker
+    code: "curl -fsSL https://get.docker.com | sh\nsystemctl enable docker\nsystemctl start docker"
+    outputVisible: true
+    dependency: "{\"pip\": [], \"npm\": []}"
+  children: []
+- id: "ba2b4f33-cacd-4952-a20c-38ce5afe0c6e"
+  type: heading
+  props:
+    level: 2
+    isToggleable: false
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Verification"
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "2969f09e-8115-4f18-aaef-2a56741f4c17"
+  type: script
+  props:
+    interpreter: bash
+    outputVariable: 
+    name: verify_installation
+    code: "docker --version\nsystemctl status docker"
+    outputVisible: true
+    dependency: "{\"pip\": [], \"npm\": []}"
+  children: []

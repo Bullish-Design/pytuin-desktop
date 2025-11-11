@@ -1,0 +1,70 @@
+id: "272f22cc-0cce-47ae-82c8-f334a89fe355"
+name: "Builder Roundtrip"
+version: 1
+content:
+- id: "a85e7d98-53dc-4cf3-ae13-275b729cf55f"
+  type: heading
+  props:
+    level: 1
+    isToggleable: false
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Setup"
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "2635f7b1-0fa6-4d46-9a11-37b447fbfde9"
+  type: paragraph
+  props:
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "This guide shows how to set up the system."
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "b1241318-e5e2-4414-8b89-b925368479b8"
+  type: horizontal_rule
+  props: {}
+  children: []
+- id: "05eb2191-a429-4d86-9a6b-b3bb69a1dbd2"
+  type: heading
+  props:
+    level: 2
+    isToggleable: false
+    textColor: default
+    backgroundColor: default
+    textAlignment: left
+  content:
+  - type: text
+    text: "Installation"
+    styles:
+      bold: false
+      italic: false
+      underline: false
+      strikethrough: false
+      code: false
+  children: []
+- id: "feb49da1-61fe-49f4-9bfe-26c645007f9a"
+  type: script
+  props:
+    interpreter: bash
+    outputVariable: 
+    name: install
+    code: "echo install"
+    outputVisible: true
+    dependency: "{\"pip\": [], \"npm\": []}"
+  children: []

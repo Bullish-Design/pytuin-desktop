@@ -1,18 +1,16 @@
-id: "f7352c74-7bbf-4569-b801-c1725980c14d"
-name: "Heading Test"
+id: "30fefd9a-368d-4f81-9787-95a5d4bd4f15"
+name: "Save Test"
 version: 1
 content:
-- id: "0d86fe89-7c0f-4056-a09c-f37415a2ac91"
-  type: heading
+- id: "98f51290-416e-463f-82f8-dcb78379b51c"
+  type: paragraph
   props:
-    level: 1
-    isToggleable: false
     textColor: default
     backgroundColor: default
     textAlignment: left
   content:
   - type: text
-    text: "Main Heading"
+    text: "Saved via editor"
     styles:
       bold: false
       italic: false
