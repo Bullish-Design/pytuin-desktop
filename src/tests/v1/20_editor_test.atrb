@@ -1,8 +1,8 @@
-id: "d7155ceb-692e-4ff8-8b51-c52598d92ef7"
-name: "Save Test"
+id: 0dd1cdfd-4ac1-4380-bd38-99f512283190
+name: Save Test
 version: 1
 content:
-- id: "c5b02c05-bc12-4a84-b965-588835fb3569"
+- id: c8d8dce5-8c88-4f8a-ab43-afb03f51abb6
   type: paragraph
   props:
     textColor: default
@@ -10,7 +10,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "Saved via editor"
+    text: Saved via editor
     styles:
       bold: false
       italic: false

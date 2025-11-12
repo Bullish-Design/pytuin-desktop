@@ -1,8 +1,8 @@
-id: "1c6f5f04-dea4-4a8f-9f14-f2facd0ee46e"
-name: "Complex Workflow Test"
+id: 5f222b28-4a34-4988-a506-f8540ccc3fa9
+name: Complex Workflow Test
 version: 1
 content:
-- id: "efda1d0a-244b-4021-b2ee-1e7ec5f907d8"
+- id: 37ca47f0-edfb-4bfa-b644-986dd7f74b7b
   type: heading
   props:
     level: 1
@@ -12,7 +12,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "Deployment Guide"
+    text: Deployment Guide
     styles:
       bold: false
       italic: false
@@ -20,7 +20,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "32da9a29-95bb-422a-b0b8-c8d91612bfa7"
+- id: 91dbe558-f25f-4d68-afa2-3afc1dabe278
   type: paragraph
   props:
     textColor: default
@@ -28,7 +28,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "Important: "
+    text: 'Important: '
     styles:
       bold: true
       italic: false
@@ -36,7 +36,7 @@ content:
       strikethrough: false
       code: false
   - type: text
-    text: "Read all steps carefully."
+    text: Read all steps carefully.
     styles:
       bold: false
       italic: false
@@ -44,11 +44,11 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "013bc6bd-ab45-4c4d-a652-ed038ef8054b"
+- id: c7f68817-084b-4047-9545-41c5a1499495
   type: horizontal_rule
   props: {}
   children: []
-- id: "3e2d547c-324b-40a8-9cdc-644d7b9be233"
+- id: 2257864d-a5c8-482d-9c04-02efb018504f
   type: heading
   props:
     level: 2
@@ -58,7 +58,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "Steps"
+    text: Steps
     styles:
       bold: false
       italic: false
@@ -66,13 +66,13 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "37c771f9-ae24-46be-94ae-01a9d9b129ff"
+- id: 61effa97-d1f3-42bc-985f-3e3c127aa7f1
   type: script
   props:
     interpreter: bash
-    outputVariable: 
+    outputVariable: null
     name: deploy
-    code: "kubectl apply -f deployment.yaml"
+    code: kubectl apply -f deployment.yaml
     outputVisible: true
-    dependency: "{\"pip\": [], \"npm\": []}"
+    dependency: '{"pip": [], "npm": []}'
   children: []
