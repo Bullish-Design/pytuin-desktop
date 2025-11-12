@@ -1,8 +1,8 @@
-id: "d93932cb-8293-4691-9398-c7a7dd103e31"
-name: "Builder Roundtrip"
+id: 05ff51d1-8ac0-4983-8e81-dbb12f51e0df
+name: Builder Roundtrip
 version: 1
 content:
-- id: "2a2dfd03-e252-4fa0-838c-4d56e55fc863"
+- id: 90958042-c170-4daa-b8e5-bd7d5fcd095a
   type: heading
   props:
     level: 1
@@ -12,7 +12,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "Setup"
+    text: Setup
     styles:
       bold: false
       italic: false
@@ -20,7 +20,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "9c8a3c6c-c524-470a-bb40-ef964daec1b1"
+- id: 212ee10d-ddb6-4d0f-a2a0-380ba66b4f2c
   type: paragraph
   props:
     textColor: default
@@ -28,7 +28,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "This guide shows how to set up the system."
+    text: This guide shows how to set up the system.
     styles:
       bold: false
       italic: false
@@ -36,11 +36,11 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "3f54f756-88b6-457d-8330-1e8197833809"
+- id: ecafdd6d-c471-48f4-911e-678b0e6f46ff
   type: horizontal_rule
   props: {}
   children: []
-- id: "0323def6-bb68-4aeb-8879-0e6b33f66bbe"
+- id: 03677ef8-1689-4192-b2a6-8cf74c7c14fb
   type: heading
   props:
     level: 2
@@ -50,7 +50,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "Installation"
+    text: Installation
     styles:
       bold: false
       italic: false
@@ -58,13 +58,13 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "3818492e-8ec2-49ec-a553-162232166aa8"
+- id: 401c0578-8c7c-4575-bd65-e8a2c392cd90
   type: script
   props:
     interpreter: bash
-    outputVariable: 
+    outputVariable: null
     name: install
-    code: "echo install"
+    code: echo install
     outputVisible: true
-    dependency: "{\"pip\": [], \"npm\": []}"
+    dependency: '{"pip": [], "npm": []}'
   children: []

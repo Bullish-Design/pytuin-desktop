@@ -1,8 +1,8 @@
-id: "bfc2bb9f-98e1-4da6-b276-37e92b3b391f"
+id: "17bccf79-5878-4110-9204-ff01a2f8090b"
 name: "Styled Paragraph Test"
 version: 1
 content:
-- id: "b09d80c1-c187-4b0d-824d-aad66f9ff279"
+- id: "42d5f2b5-ceca-422a-aebd-802a01563554"
   type: paragraph
   props:
     textColor: default

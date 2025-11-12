@@ -1,8 +1,8 @@
-id: "d14259ea-f84f-4524-a9ef-a1467ed5b402"
-name: "Simple Workflow Test"
+id: 02447ec9-d86c-4826-9508-5545ec7ba53e
+name: Simple Workflow Test
 version: 1
 content:
-- id: "acf492a4-a9a3-4ebe-9eec-20d593ec8ceb"
+- id: 47093253-24be-4e2d-809b-864e39dbb082
   type: heading
   props:
     level: 1
@@ -12,7 +12,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "Title"
+    text: Title
     styles:
       bold: false
       italic: false
@@ -20,7 +20,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "a89e70df-2323-48c7-bd64-25e4524d1927"
+- id: c35f36e1-62e0-49d6-a0b7-1422089fbe26
   type: paragraph
   props:
     textColor: default
@@ -28,7 +28,7 @@ content:
     textAlignment: left
   content:
   - type: text
-    text: "Content"
+    text: Content
     styles:
       bold: false
       italic: false
