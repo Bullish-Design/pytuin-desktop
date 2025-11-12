@@ -1,8 +1,8 @@
-id: "b305f157-88c2-4f11-8b61-4e554feac4fc"
+id: "d044d901-88d9-4448-a464-4879bd9cb625"
 name: "Script Test"
 version: 1
 content:
-- id: "eb9111fa-917b-4536-b931-6bc7b9424c9a"
+- id: "67052c73-6778-4ecd-990f-ed8ff2d1083c"
   type: script
   props:
     interpreter: bash

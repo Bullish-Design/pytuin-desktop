@@ -1,11 +1,13 @@
-"""Convenience builders for common block templates (Step 12)."""
+"""Convenience builders for common block templates (v3 Step 1)."""
 from __future__ import annotations
 
-from typing import Literal
+from pathlib import Path
+from typing import Literal, Optional, Union
 from uuid import uuid4
 
 from .discovery import load_atrb_templates
 
+PathLike = Union[str, Path]
 
 class BlockBuilder:
     """Factory methods returning Templateer-based block templates.
@@ -14,13 +16,9 @@ class BlockBuilder:
     TextContentTemplate, and they assign fresh UUIDs to blocks by default.
     """
 
-    _templates = None  # lazy-loaded template collection
-
     @classmethod
-    def _get_templates(cls):
-        if cls._templates is None:
-            cls._templates = load_atrb_templates()
-        return cls._templates
+    def _get_templates(cls, template_dir: Optional[PathLike] = None):
+        return load_atrb_templates(template_dir)
 
     # ---- Paragraph ----------------------------------------------------
     @classmethod
@@ -36,12 +34,13 @@ class BlockBuilder:
         text_color: str = "default",
         background_color: str = "default",
         text_alignment: str = "left",
+        template_dir: Optional[PathLike] = None,
     ):
         """Create a paragraph block with optional inline styles.
 
         Returns a ParagraphBlockTemplate instance.
         """
-        T = cls._get_templates()
+        T = cls._get_templates(template_dir)
 
         content = []
         if text:
@@ -73,9 +72,10 @@ class BlockBuilder:
         text_color: str = "default",
         background_color: str = "default",
         text_alignment: str = "left",
+        template_dir: Optional[PathLike] = None,
     ):
         """Create a heading block with a single text child."""
-        T = cls._get_templates()
+        T = cls._get_templates(template_dir)
         styles = T.TextStylesTemplate()
         text_content = T.TextContentTemplate(text=text, styles=styles)
         return T.HeadingBlockTemplate(
@@ -90,9 +90,9 @@ class BlockBuilder:
 
     # ---- Horizontal rule ----------------------------------------------
     @classmethod
-    def horizontal_rule(cls):
+    def horizontal_rule(cls, *, template_dir: Optional[PathLike] = None):
         """Create a horizontal rule block."""
-        T = cls._get_templates()
+        T = cls._get_templates(template_dir)
         return T.HorizontalRuleTemplate(block_id=str(uuid4()))
 
     # ---- Script -------------------------------------------------------
@@ -106,9 +106,10 @@ class BlockBuilder:
         output_variable: str = "",
         output_visible: bool = True,
         dependency: str | None = None,
+        template_dir: Optional[PathLike] = None,
     ):
         """Create a script block."""
-        T = cls._get_templates()
+        T = cls._get_templates(template_dir)
         kwargs = dict(
             block_id=str(uuid4()),
             name=name,

@@ -1,8 +1,8 @@
-"""Document editor for manipulating .atrb files (Step 11)."""
+"""Document editor for manipulating .atrb files (v3 Step 1)."""
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List
+from typing import List, Optional, Union
 from uuid import uuid4
 
 from templateer import TemplateModel
@@ -10,6 +10,7 @@ from templateer import TemplateModel
 from .parser import AtrbParser
 from .discovery import load_atrb_templates
 
+PathLike = Union[str, Path]
 
 class DocumentEditor:
     """Edit .atrb documents using Templateer-based templates.
@@ -18,28 +19,29 @@ class DocumentEditor:
     Rendering and saving are delegated to the discovered DocumentTemplate.
     """
 
-    def __init__(self, document_id: str, name: str, version: int = 1):
+    def __init__(self, document_id: str, name: str, version: int = 1, *, template_dir: Optional[PathLike] = None):
         self.document_id = document_id
         self.name = name
         self.version = version
         self.blocks: List[TemplateModel] = []
-        self._templates = load_atrb_templates()
+        self._template_dir: Optional[PathLike] = template_dir
+        self._templates = load_atrb_templates(template_dir)
 
     # ---- Constructors -------------------------------------------------
     @classmethod
-    def create(cls, name: str, version: int = 1) -> "DocumentEditor":
-        """Create a new empty document."""
-        return cls(document_id=str(uuid4()), name=name, version=version)
+    def create(cls, name: str, version: int = 1, *, template_dir: Optional[PathLike] = None) -> "DocumentEditor":
+        """Create a new empty document with an optional explicit template dir."""
+        return cls(document_id=str(uuid4()), name=name, version=version, template_dir=template_dir)
 
     @classmethod
-    def from_file(cls, filepath: str | Path) -> "DocumentEditor":
+    def from_file(cls, filepath: str | Path, *, template_dir: Optional[PathLike] = None) -> "DocumentEditor":
         """Load an existing .atrb file and return an editor seeded with its metadata.
 
         Note: Blocks are not round-tripped into TemplateModel instances; this
         constructor only copies top-level metadata (id/name/version).
         """
         doc = AtrbParser.parse_file(filepath)
-        return cls(document_id=str(doc.id), name=doc.name, version=doc.version)
+        return cls(document_id=str(doc.id), name=doc.name, version=doc.version, template_dir=template_dir)
 
     # ---- Editing API --------------------------------------------------
     def add_block(self, block: TemplateModel) -> "DocumentEditor":
