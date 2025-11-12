@@ -1,132 +1,195 @@
-# Pytuin-Desktop v3
+# Pytuin-Desktop
 
-A small, testable toolkit for generating and editing `.atrb` documents. It provides a validated YAML schema, a template-driven block system, and a composable editor with streaming I/O and an extensibility seam for persistence.
+Fast, typed tools for reading, building, validating, diffing, and writing `.atrb` documents used by the Atuin Desktop app. Pytuin-Desktop wraps Templateer (Pydantic + Jinja2) for code-generated blocks and provides a batteries-included editing and parsing toolkit.
 
-## Highlights (v3)
-
-- Streaming read/write for `.atrb` via file paths or text streams.
-- Strongly-typed data model with schema validation before write.
-- Templated block generation with `templateer` for deterministic output.
-- Repository protocol for persistence, plus an in-memory implementation.
-- Stable top-level public API with explicit exports and versioning.
-- Repeatable tests and minimal dependencies.
-
-## Quick Start
-
-### Create and save a document
+## TL;DR (Quickstart)
 
 ```python
-from uuid import uuid4
-from templateer import TemplateModel
-from pytuin_desktop import DocumentEditor
+from pytuin_desktop import BlockBuilder, DocumentEditor
 
-PARA_TMPL = \"\"\"
-id: \"{{ block_id }}\"
-type: paragraph
-props: { }
+# 1) Build some blocks via templates in `.templateer/`
+heading = BlockBuilder.heading("My session", level=2)
+para = BlockBuilder.paragraph("Run this to fetch history.", italic=True)
+
+# 2) Compose a document with the editor
+ed = DocumentEditor.create("atuin-setup", version=1)
+ed.add_blocks([heading, para])
+print(ed.render())          # -> YAML text
+ed.save("atuin_setup.atrb") # writes file
+```
+
+---
+
+## Installation
+
+Pytuin-Desktop targets Python >=3.11. It depends on Pydantic v2 and PyYAML, and uses Jinja2 through Templateer for code-generated templates.
+
+## What is an `.atrb`?
+
+A single YAML document that describes a page of blocks (e.g., headings, paragraphs, scripts, terminals) the desktop app renders. Minimal shape:
+
+```yaml
+id: 6f1e4a24-ea9a-4ab5-9d1a-2b5d9e58f0bd
+name: My Doc
+version: 1
 content:
-  - type: text
-    text: {{ text|tojson }}
-    styles: { bold: false, italic: false, underline: false, strikethrough: false, code: false }
-children: []
-\"\"\"
-
-class ParagraphBlockTemplate(TemplateModel):
-    __template__ = PARA_TMPL
-    block_id: str
-    text: str
-
-# Create an editor and add blocks
-ed = DocumentEditor.create(\"My Doc\")
-ed.add_block(ParagraphBlockTemplate(block_id=str(uuid4()), text=\"Hello world\"))
-
-# Save to disk (ensures a single trailing newline)
-ed.save(\"example.atrb\")
+  - id: 4b52f5e2-5c31-4b3b-9d59-5416f5b0f0aa
+    type: heading
+    props: { level: 2, isToggleable: false }
+    content: [{ text: "Hello", styles: { bold: false } }]
 ```
 
-### Parse and validate
+You can hand-write these, but most users generate them using template classes in `.templateer/` via `BlockBuilder` APIs.
+
+## Core Concepts
+
+- Typed blocks - Pydantic models for known block kinds and a union type `Block`:
+  - `HeadingBlock`, `ParagraphBlock`, `ScriptBlock`, `EditorBlock`, `TerminalBlock` (`type: run`), `EnvironmentBlock` (`type: env`), `VariableBlock` (`type: var`), `DirectoryBlock`, `HorizontalRuleBlock`.
+- Enums - `TextAlignment` and `ColorToken` ensure safe values; string inputs are coerced during parsing/validation.
+- Templates - Templateer models render block dictionaries (YAML). Discoverable from `.templateer/`.
+- Builders - Convenience functions (`BlockBuilder.heading/paragraph/script/...`) that call templates and handle IDs & enums.
+- Editor - `DocumentEditor` collects existing+new blocks, validates, renders YAML, and saves to disk.
+- Parser - `AtrbParser.parse_file/parse_stream/parse_dict(_typed)` reads `.atrb` into models and validates.
+- Diffs - `DocumentDiffer.diff(old, new)` reports added/removed/moved/modified blocks.
+- Services - `DocumentLoader` (read) and `DocumentSerializer` (YAML IO helpers) for simple plumbing.
+- Metrics & Logging - Hook points across parse/save/edit operations to measure and troubleshoot.
+
+## High-level API
+
+### Block builders
 
 ```python
-from pytuin_desktop import AtrbParser, AtrbValidator
+from pytuin_desktop import BlockBuilder, TextAlignment, ColorToken
 
-doc = AtrbParser.parse_file(\"example.atrb\")
-AtrbValidator.validate(doc)  # raises on schema violations
-```
+h = BlockBuilder.heading(
+    "Setup", level=1, is_toggleable=True,
+    text_alignment=TextAlignment.center, text_color="accent"
+)
+p = BlockBuilder.paragraph("Install Atuin and sign in", italic=True)
 
-### Stream I/O (stdin/stdout style)
-
-```python
-from io import StringIO
-from pytuin_desktop import AtrbParser
-
-with open(\"example.atrb\", \"r\", encoding=\"utf-8\") as f:
-    doc = AtrbParser.parse_stream(f)
-```
-
-### Optional persistence via repository
-
-```python
-from pytuin_desktop import DocumentEditor, InMemoryDocumentRepository
-from uuid import uuid4
-
-repo = InMemoryDocumentRepository()
-ed = DocumentEditor.create(\"Repo Doc\", repository=repo)
-ed.add_block(ParagraphBlockTemplate(block_id=str(uuid4()), text=\"Persist me\"))
-ed.save(\"repo_doc.atrb\")  # also saved to repo
-
-stored = repo.list()
-doc_id = str(stored[0].id)
-same_doc = repo.get(doc_id)
-```
-
-## Public API (stable)
-
-```python
-from pytuin_desktop import (
-    # Parsing & validation
-    AtrbParser, AtrbValidator,
-
-    # Models
-    AtrbDocument, BaseBlock, TextAlignment, ColorToken,
-
-    # Templating & builders
-    load_atrb_templates, clear_template_cache, BlockBuilder,
-
-    # Editing
-    DocumentEditor,
-
-    # Persistence seam
-    DocumentRepository, InMemoryDocumentRepository,
-
-    # Logging
-    get_logger,
-
-    # Errors
-    AtrbError, AtrbParseError, AtrbSchemaError, AtrbValidationError, TemplateDiscoveryError,
-
-    # Version
-    __version__,
+script = BlockBuilder.script(
+    name="Install Atuin", code="curl ... | bash", interpreter="bash",
+    output_variable="install_log", output_visible=True
 )
 ```
 
-## Document format (`.atrb`)
+> Builders call into your local `.templateer/` templates. Ensure that directory exists and contains the block templates shipped with your project/app.
 
-- UTF‑8 YAML.
-- Top-level metadata: `id`, `name`, `version`.
-- `content` is an ordered list of block dictionaries.
-- Each block has a `type`, `props`, `content` (rich text runs), and `children`.
-- Schema is validated prior to writes; invalid documents raise an error.
+### Editing & writing
 
-## Logging
+```python
+from pytuin_desktop import DocumentEditor
 
-Use `get_logger()` to obtain a preconfigured logger. Editor operations log structured breadcrumbs such as `editor.write_to_stream`, `editor.save`, and `editor.repo_saved` (when a repository is used).
+ed = DocumentEditor.create("getting-started", version=1)
+ed.add_blocks([h, p, script])
+ed.save("getting_started.atrb")  # validates and writes YAML
+```
 
-## Versioning
+- `insert_block_at(i, block)` - insert among new blocks.
+- `move_block(from_i, to_i)` - reorder within existing or new regions (not across the boundary).
+- `replace_block_at(i, block)` - remove then insert as new at the same index.
+- `remove_block_at(i)` / `remove_blocks_at([...])`
+- `find_blocks_by_type("heading")`, `find_block_by_id(uuid)`, `get_block_index(uuid)`.
 
-This release identifies as `0.3.0-dev9`. The public API is kept stable within v3; internal modules may change.
+### Parsing & validating
 
-## Contributing
+```python
+from pytuin_desktop import AtrbParser
 
-- Run the test suite and ensure 100% passing.
-- Add tests for new block types, validators, and editor behaviors.
-- Keep top-level exports coherent; breaking API changes should be deliberate and documented in the changelog.
+doc = AtrbParser.parse_file("getting_started.atrb")  # returns AtrbDocument
+```
+
+Validation catches:
+- Missing document keys (`id`, `name`, `version`).
+- Duplicate block IDs, non-UUIDs, empty types.
+- Typed block rules (e.g., heading level 1-6, non-empty script name/code).
+- Enum normalization/guarantees for color/alignment.
+
+### Diffing
+
+```python
+from pytuin_desktop import DocumentDiffer
+
+before = AtrbParser.parse_file("v1.atrb")
+after = AtrbParser.parse_file("v2.atrb")
+diff = DocumentDiffer.diff(before, after)
+
+print(diff.added_count, diff.removed_count, diff.modified_count, diff.moved_count)
+for c in diff.changes:
+    print(c.change_type, c.block_id, c.property_changes)
+```
+
+### Loading & serialization services
+
+```python
+from pytuin_desktop import DocumentLoader, DocumentSerializer
+
+loader = DocumentLoader()
+doc = loader.load_from_file("doc.atrb")
+
+ser = DocumentSerializer()
+yaml_text = ser.dumps_yaml({"hello": "world"})
+```
+
+## Template discovery
+
+Templates live under `.templateer/`. The library discovers them and caches the namespace for reuse:
+
+```python
+from pytuin_desktop import load_atrb_templates, clear_template_cache
+
+T = load_atrb_templates(".templateer")  # raises TemplateDiscoveryError if folder missing
+clear_template_cache()                  # bust cache (e.g., after writing new files)
+```
+
+## Environment & configuration
+
+- `PYTUIN_TEMPLATE_DIR` - sets the default template directory looked up by builders/editor.
+- `PYTUIN_LOG_LEVEL` - logger level (default `WARNING`).
+
+## Exceptions you might see
+
+- `AtrbParseError`, `AtrbSchemaError`, `AtrbValidationError` - parsing/shape/semantic issues.
+- `TemplateDiscoveryError` - missing or unreadable `.templateer` directory.
+
+## Metrics & Logging
+
+Operations record durations and counters via the pluggable `MetricsCollector` and log via a standard `logging.Logger`. For in-memory inspection:
+
+```python
+from pytuin_desktop import InMemoryMetricsCollector, set_default_collector
+
+mc = InMemoryMetricsCollector()
+set_default_collector(mc)
+```
+
+## Minimal end-to-end example
+
+```python
+from pytuin_desktop import (
+    BlockBuilder, DocumentEditor, AtrbParser,
+    DocumentDiffer, InMemoryMetricsCollector, set_default_collector
+)
+
+set_default_collector(InMemoryMetricsCollector())
+
+ed = DocumentEditor.create("demo", version=1)
+ed.add_block(BlockBuilder.heading("Demo", level=1))
+ed.add_block(BlockBuilder.paragraph("Hello Atuin!"))
+ed.save("demo.atrb")
+
+parsed = AtrbParser.parse_file("demo.atrb")
+print(len(parsed.content))  # -> 2
+```
+
+## FAQ
+
+- Do I have to use builders? No. You can hand-craft YAML or use your own Templateer models. Builders are convenience wrappers around the same templates.
+- Can I define my own block types? Yes. Unknown types parse as `BaseBlock`. For first-class support, add a typed model + props + templates and extend the union.
+- Is write atomic? `DocumentEditor.save()` writes to the target path directly. Wrap at a higher level if you need temp-file atomicity.
+- Windows/macOS/Linux? It is pure Python; no platform-specific dependencies.
+
+## Links
+
+- Atuin Desktop: https://github.com/atuinsh/desktop and https://man.atuin.sh/
+- Templateer (concepts this library builds on): models + discovery abstraction
