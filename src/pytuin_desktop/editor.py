@@ -25,6 +25,23 @@ def _ensure_single_trailing_newline(text: str) -> str:
         return "\n"
     return text.rstrip("\n") + "\n"
 
+def _to_jsonable(obj):
+    """Recursively convert objects (e.g., UUID) to YAML/JSON-safe primitives."""
+    from uuid import UUID
+    if isinstance(obj, dict):
+        return {k: _to_jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [_to_jsonable(x) for x in obj]
+    if isinstance(obj, UUID):
+        return str(obj)
+    # Pydantic models with model_dump
+    if hasattr(obj, "model_dump"):
+        try:
+            return _to_jsonable(obj.model_dump(mode="python"))
+        except Exception:
+            pass
+    return obj
+
 
 PathLike = Union[str, Path]
 
@@ -191,7 +208,7 @@ class DocumentEditor:
         # Delegate final rendering to the discovered DocumentTemplate so tests can patch it.
         DocT = getattr(self._templates, "DocumentTemplate", None)
         if DocT is None:
-            rendered = getattr(yaml, "safe_dump", safe_dump)(legacy_map, sort_keys=False, allow_unicode=True)
+            rendered = getattr(yaml, "safe_dump", safe_dump)(_to_jsonable(legacy_map), sort_keys=False, allow_unicode=True)
             self._logger.info("editor.render_done", extra={"bytes": len(rendered)})
             return rendered
 
@@ -204,7 +221,7 @@ class DocumentEditor:
         except Exception:
             loaded = None
         if isinstance(loaded, dict) and loaded.get("content") == [] and len(content) > 0:
-            rendered = getattr(yaml, "safe_dump", safe_dump)(legacy_map, sort_keys=False, allow_unicode=True)
+            rendered = getattr(yaml, "safe_dump", safe_dump)(_to_jsonable(legacy_map), sort_keys=False, allow_unicode=True)
 
         self._logger.info("editor.render_done", extra={"bytes": len(rendered)})
         return rendered
