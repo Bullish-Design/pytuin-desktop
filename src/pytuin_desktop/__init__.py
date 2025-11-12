@@ -1,6 +1,8 @@
-# path: pytuin_desktop/__init__.py
-"""Pytuin Desktop - .atrb file library (v4 Phase 2)."""
-__version__ = "0.4.0-alpha2"
+# path: src/pytuin_desktop/__init__.py
+"""Pytuin Desktop - .atrb file library (v4 Phase 4/5)."""
+from __future__ import annotations
+
+__version__ = "0.4.0-alpha4"
 
 from .parser import AtrbParser
 from .models import (
@@ -21,6 +23,16 @@ from .block_props import (
 )
 from .errors import (
     AtrbError, AtrbParseError, AtrbSchemaError, AtrbValidationError, TemplateDiscoveryError,
+)
+from .id_generators import (
+    BlockIdGenerator, UUIDv4Generator, UUIDv1Generator, DeterministicGenerator, SequentialGenerator,
+    get_default_generator, set_default_generator, reset_default_generator, generate_block_id
+)
+from .diff import DocumentDiffer, DocumentDiff, BlockChange, ChangeType
+from .serializers import YamlSerializer, SafeYamlSerializer, get_default_serializer, set_default_serializer
+from .metrics import (
+    MetricsCollector, NoOpMetricsCollector, InMemoryMetricsCollector,
+    TimingContext, get_default_collector, set_default_collector
 )
 
 __all__ = [
@@ -43,4 +55,14 @@ __all__ = [
     "AtrbError","AtrbParseError","AtrbSchemaError","AtrbValidationError","TemplateDiscoveryError",
     # Enums & Validation
     "TextAlignment","ColorToken","AtrbValidator","__version__",
+    # ID Generators
+    "BlockIdGenerator","UUIDv4Generator","UUIDv1Generator","DeterministicGenerator","SequentialGenerator",
+    "get_default_generator","set_default_generator","reset_default_generator","generate_block_id",
+    # Diff
+    "DocumentDiffer","DocumentDiff","BlockChange","ChangeType",
+    # Serializers
+    "YamlSerializer","SafeYamlSerializer","get_default_serializer","set_default_serializer",
+    # Metrics
+    "MetricsCollector","NoOpMetricsCollector","InMemoryMetricsCollector","TimingContext",
+    "get_default_collector","set_default_collector",
 ]

@@ -1,5 +1,5 @@
-# path: pytuin_desktop/parser.py
-"""Parser for .atrb files (v4 Phase 2)."""
+# path: src/pytuin_desktop/parser.py
+"""Parser for .atrb files (v4 Phase 4 - metrics hooks)."""
 from __future__ import annotations
 from pathlib import Path
 from typing import Any, TextIO
@@ -11,28 +11,34 @@ from .models import AtrbDocument, BaseBlock, Block
 from .logger import logger as _default_logger
 from .errors import AtrbParseError, AtrbSchemaError, AtrbValidationError
 from .validator import AtrbValidator
+from .metrics import MetricsCollector, get_default_collector, TimingContext
 
 class AtrbParser:
     @staticmethod
-    def parse_file(filepath: str | Path, logger: Logger | None = None, *, validate: bool = True) -> AtrbDocument:
+    def parse_file(filepath: str | Path, logger: Logger | None = None, *, validate: bool = True, metrics: MetricsCollector | None = None) -> AtrbDocument:
         lg = logger or _default_logger
+        mc = metrics or get_default_collector()
         path = Path(filepath)
         lg.info("parser.parse_file", extra={"path": str(path.absolute())})
-        try:
-            with path.open("r", encoding="utf-8") as fh:
-                doc = AtrbParser.parse_stream(fh, logger=lg, validate=validate)
-            lg.info("parser.parse_ok", extra={"path": str(path.absolute())})
-            return doc
-        except (AtrbParseError, AtrbSchemaError, AtrbValidationError):
-            raise
-        except Exception as e:
-            lg.error("parser.parse_error", extra={"path": str(path.absolute()), "error": str(e)})
-            raise AtrbParseError(str(e)) from e
+        with TimingContext(mc, "parse_file"):
+            try:
+                with path.open("r", encoding="utf-8") as fh:
+                    doc = AtrbParser.parse_stream(fh, logger=lg, validate=validate, metrics=mc)
+                lg.info("parser.parse_ok", extra={"path": str(path.absolute())})
+                mc.increment_counter("documents_parsed")
+                mc.record_value("document_block_count", len(doc.content))
+                return doc
+            except (AtrbParseError, AtrbSchemaError, AtrbValidationError):
+                mc.increment_counter("parse_errors")
+                raise
+            except Exception as e:
+                lg.error("parser.parse_error", extra={"path": str(path.absolute()), "error": str(e)})
+                mc.increment_counter("parse_errors")
+                raise AtrbParseError(str(e)) from e
 
     @staticmethod
-    def parse_stream(stream: TextIO, logger: Logger | None = None, *, validate: bool = True) -> AtrbDocument:
+    def parse_stream(stream: TextIO, logger: Logger | None = None, *, validate: bool = True, metrics: MetricsCollector | None = None) -> AtrbDocument:
         lg = logger or _default_logger
-        lg.debug("parser.parse_stream")
         try:
             data = yaml.safe_load(stream) or {}
         except Exception as e:
@@ -142,13 +148,3 @@ class AtrbParser:
         if validate:
             AtrbValidator.validate(doc)
         return doc
-
-    @staticmethod
-    def validate_atrb(filepath: str | Path, logger: Logger | None = None, **_: object) -> bool:
-        lg = logger or _default_logger
-        try:
-            AtrbParser.parse_file(filepath, logger=lg, validate=True)
-            return True
-        except Exception as exc:
-            lg.debug("parser.validate_failed", extra={"path": str(Path(filepath).absolute()), "error": str(exc)})
-            return False

@@ -3,7 +3,8 @@
 from __future__ import annotations
 from pathlib import Path
 from typing import Literal, Optional, Union
-from uuid import uuid4
+from uuid import uuid4  # deprecated here
+from .id_generators import generate_block_id
 from .discovery import load_atrb_templates
 from .enums import TextAlignment, ColorToken
 PathLike = Union[str, Path]
@@ -42,7 +43,7 @@ class BlockBuilder:
             styles = T.TextStylesTemplate(bold=bold, italic=italic, underline=underline, strikethrough=strikethrough, code=code)
             content = [T.TextContentTemplate(text=text, styles=styles)]
         return T.ParagraphBlockTemplate(
-            block_id=str(uuid4()),
+            block_id=str(generate_block_id()),
             text_color=cls._normalize_enum_to_instance(text_color, ColorToken),
             background_color=cls._normalize_enum_to_instance(background_color, ColorToken),
             text_alignment=cls._normalize_enum_to_instance(text_alignment, TextAlignment),
@@ -59,7 +60,7 @@ class BlockBuilder:
         styles = T.TextStylesTemplate()
         text_content = T.TextContentTemplate(text=text, styles=styles)
         return T.HeadingBlockTemplate(
-            block_id=str(uuid4()), level=level, is_toggleable=is_toggleable,
+            block_id=str(generate_block_id()), level=level, is_toggleable=is_toggleable,
             text_color=cls._normalize_enum_to_instance(text_color, ColorToken),
             background_color=cls._normalize_enum_to_instance(background_color, ColorToken),
             text_alignment=cls._normalize_enum_to_instance(text_alignment, TextAlignment),
@@ -69,7 +70,7 @@ class BlockBuilder:
     @classmethod
     def horizontal_rule(cls, *, template_dir: Optional[PathLike] = None):
         T = cls._get_templates(template_dir)
-        return T.HorizontalRuleTemplate(block_id=str(uuid4()))
+        return T.HorizontalRuleTemplate(block_id=str(generate_block_id()))
 
     @classmethod
     def script(
@@ -77,7 +78,7 @@ class BlockBuilder:
         dependency: str | None = None, template_dir: Optional[PathLike] = None,
     ):
         T = cls._get_templates(template_dir)
-        kwargs = dict(block_id=str(uuid4()), name=name, code=code, interpreter=interpreter, output_variable=output_variable, output_visible=output_visible)
+        kwargs = dict(block_id=str(generate_block_id()), name=name, code=code, interpreter=interpreter, output_variable=output_variable, output_visible=output_visible)
         if dependency is not None:
             kwargs["dependency"] = dependency
         return T.ScriptBlockTemplate(**kwargs)
