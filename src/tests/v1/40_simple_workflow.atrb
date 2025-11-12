@@ -1,8 +1,8 @@
-id: "b83d7104-379d-4842-b3c6-28465d074227"
+id: "c63e9afb-ea09-4d2d-a43a-e6e69b228d51"
 name: "Simple Workflow Test"
 version: 1
 content:
-- id: "e4f4d925-f80d-4e84-ac44-efb1a1c7d912"
+- id: "99f95642-eaf9-4f4a-9c91-9008f0659323"
   type: heading
   props:
     level: 1
@@ -20,7 +20,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "5b30fd91-20cb-44ff-8d4c-ed7fc93344c7"
+- id: "673febf2-de26-46f8-aa91-71f4d1aff425"
   type: paragraph
   props:
     textColor: default

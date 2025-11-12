@@ -1,8 +1,8 @@
-id: "706c2ce0-c0af-4951-9fd8-af578582fe6f"
+id: "8d88011a-ccbb-4c2e-8c13-5850e8a39f72"
 name: "Horizontal Rule Test"
 version: 1
 content:
-- id: "73492f37-405c-49ea-80be-92e0104fcfa3"
+- id: "c1d38b26-42f3-4573-a565-4540972399b1"
   type: horizontal_rule
   props: {}
   children: []
