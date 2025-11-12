@@ -1,4 +1,4 @@
-"""Parser for validating and loading .atrb files."""
+"""Parser for validating and loading .atrb files (v3, Step 8)."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -12,6 +12,7 @@ from .models import AtrbDocument, BaseBlock
 from .logger import logger as _default_logger
 from .errors import AtrbParseError, AtrbSchemaError, AtrbValidationError
 from .enums import TextAlignment, ColorToken
+from .validator import AtrbValidator
 
 
 class AtrbParser:
@@ -29,16 +30,16 @@ class AtrbParser:
     # Public API
     # ------------------------
     @staticmethod
-    def parse_file(filepath: str | Path, logger: Logger | None = None) -> AtrbDocument:
+    def parse_file(filepath: str | Path, logger: Logger | None = None, *, validate: bool = True) -> AtrbDocument:
         lg = logger or _default_logger
         path = Path(filepath)
         lg.info("parser.parse_file", extra={"path": str(path.absolute())})
         try:
             with path.open("r", encoding="utf-8") as fh:
-                doc = AtrbParser.parse_stream(fh, logger=lg)
+                doc = AtrbParser.parse_stream(fh, logger=lg, validate=validate)
             lg.info("parser.parse_ok", extra={"path": str(path.absolute())})
             return doc
-        except (AtrbError := (AtrbParseError, AtrbSchemaError, AtrbValidationError)) as e:  # type: ignore[assignment]
+        except (AtrbParseError, AtrbSchemaError, AtrbValidationError) as e:
             lg.error("parser.parse_error", extra={"path": str(path.absolute()), "error": str(e)})
             raise
         except Exception as e:  # wrap unknowns as parse error
@@ -46,7 +47,7 @@ class AtrbParser:
             raise AtrbParseError(str(e)) from e
 
     @staticmethod
-    def parse_stream(stream: TextIO, logger: Logger | None = None) -> AtrbDocument:
+    def parse_stream(stream: TextIO, logger: Logger | None = None, *, validate: bool = True) -> AtrbDocument:
         lg = logger or _default_logger
         lg.debug("parser.parse_stream")
         try:
@@ -54,10 +55,10 @@ class AtrbParser:
         except Exception as e:
             lg.error("parser.error.yaml", extra={"error": str(e)})
             raise AtrbParseError("Invalid YAML") from e
-        return AtrbParser.parse_dict(data, logger=lg)
+        return AtrbParser.parse_dict(data, logger=lg, validate=validate)
 
     @staticmethod
-    def parse_dict(data: dict[str, Any], logger: Logger | None = None) -> AtrbDocument:
+    def parse_dict(data: dict[str, Any], logger: Logger | None = None, *, validate: bool = True) -> AtrbDocument:
         lg = logger or _default_logger
         if not isinstance(data, dict):
             lg.error("parser.error.root_not_mapping")
@@ -94,14 +95,21 @@ class AtrbParser:
         version = data.get("version")
         if did is None or name is None or version is None:
             lg.error("parser.error.doc_missing_keys")
-            raise AtrbSchemaError("Document missing one of required fields: id, name, version")
+            raise AtrbSchemaError("Document missing required keys 'id', 'name', or 'version'")
 
-        doc = AtrbDocument(
-            id=UUID(str(did)),
-            name=str(name),
-            version=int(version),
-            content=blocks,
-        )
+        try:
+            doc = AtrbDocument(
+                id=UUID(str(did)),
+                name=str(name),
+                version=int(version),
+                content=blocks,
+            )
+        except Exception as e:
+            lg.error("parser.error.model", extra={"error": str(e)})
+            raise AtrbValidationError(str(e)) from e
+
+        if validate:
+            AtrbValidator.validate(doc)
         return doc
 
     # ------------------------
@@ -131,7 +139,7 @@ class AtrbParser:
                 if isinstance(val, str):
                     token = val.strip().lower()
                     try:
-                        out[key] = enum_cls(token)
+                        out[key] = enum_cls(token)  # type: ignore[arg-type]
                     except Exception as e:
                         raise AtrbValidationError(f"Invalid {enum_cls.__name__} value for '{key}': {val!r}") from e
                 else:
@@ -143,7 +151,7 @@ class AtrbParser:
         """Return True iff the file parses without raising an exception."""
         lg = logger or _default_logger
         try:
-            AtrbParser.parse_file(filepath, logger=lg)
+            AtrbParser.parse_file(filepath, logger=lg, validate=True)
             return True
         except Exception as exc:
             lg.debug("parser.validate_failed", extra={"path": str(Path(filepath).absolute()), "error": str(exc)})

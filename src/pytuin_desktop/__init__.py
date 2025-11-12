@@ -1,6 +1,6 @@
 """Pytuin Desktop - .atrb file library (v3 Step 7)."""
 
-__version__ = "0.3.0-dev7"
+__version__ = "0.3.0-dev9"
 
 from .parser import AtrbParser
 from .models import AtrbDocument, BaseBlock
@@ -9,6 +9,8 @@ from .editor import DocumentEditor
 from .builders import BlockBuilder
 from .logger import get_logger
 from .enums import TextAlignment, ColorToken
+from .validator import AtrbValidator
+from .repository import DocumentRepository, InMemoryDocumentRepository
 from .errors import (
     AtrbError,
     AtrbParseError,
@@ -18,6 +20,8 @@ from .errors import (
 )
 
 __all__ = [
+    "DocumentRepository",
+    "InMemoryDocumentRepository",
     "AtrbParser",
     "AtrbDocument",
     "BaseBlock",
@@ -33,5 +37,6 @@ __all__ = [
     "TemplateDiscoveryError",
     "TextAlignment",
     "ColorToken",
+    "AtrbValidator",
     "__version__",
 ]

@@ -18,6 +18,8 @@ from .parser import AtrbParser
 from .models import BaseBlock
 from .discovery import load_atrb_templates
 from .logger import logger as _default_logger
+from .validator import AtrbValidator
+from .repository import DocumentRepository
 
 
 def _ensure_single_trailing_newline(text: str) -> str:
@@ -69,6 +71,7 @@ class DocumentEditor:
         *,
         template_dir: Optional[PathLike] = None,
         logger: Logger | None = None,
+        repository: DocumentRepository | None = None,
     ):
         self.document_id = document_id
         self.name = name
@@ -78,6 +81,7 @@ class DocumentEditor:
         self._template_dir: Optional[PathLike] = template_dir
         self._logger: Logger = logger or _default_logger
         self._templates = load_atrb_templates(template_dir, logger=self._logger)
+        self._repo = repository
 
     # ---- Constructors -------------------------------------------------
     @classmethod
@@ -88,9 +92,10 @@ class DocumentEditor:
         *,
         template_dir: Optional[PathLike] = None,
         logger: Logger | None = None,
+        repository: DocumentRepository | None = None,
     ) -> "DocumentEditor":
         """Create a new empty document with an optional explicit template dir."""
-        inst = cls(document_id=str(uuid4()), name=name, version=version, template_dir=template_dir, logger=logger)
+        inst = cls(document_id=str(uuid4()), name=name, version=version, template_dir=template_dir, logger=logger, repository=repository)
         inst._logger.info("editor.create", extra={"doc_name": name, "version": version})
         return inst
 
@@ -101,6 +106,7 @@ class DocumentEditor:
         *,
         template_dir: Optional[PathLike] = None,
         logger: Logger | None = None,
+        repository: DocumentRepository | None = None,
     ) -> "DocumentEditor":
         """Load an existing .atrb file and return an editor seeded with its metadata.
 
@@ -108,7 +114,7 @@ class DocumentEditor:
         constructor only copies top-level metadata (id/name/version).
         """
         doc = AtrbParser.parse_file(filepath, logger=logger)
-        inst = cls(document_id=str(doc.id), name=doc.name, version=doc.version, template_dir=template_dir, logger=logger)
+        inst = cls(document_id=str(doc.id), name=doc.name, version=doc.version, template_dir=template_dir, logger=logger, repository=repository)
         inst._logger.info("editor.from_file", extra={"path": str(Path(filepath).absolute())})
         return inst
 
@@ -119,6 +125,7 @@ class DocumentEditor:
         *,
         template_dir: Optional[PathLike] = None,
         logger: Logger | None = None,
+        repository: DocumentRepository | None = None,
     ) -> "DocumentEditor":
         """Load an existing .atrb file and preserve its parsed blocks.
 
@@ -126,7 +133,7 @@ class DocumentEditor:
         future renders keep original content and ordering intact while allowing new blocks to be appended.
         """
         doc = AtrbParser.parse_file(filepath, logger=logger)
-        inst = cls(document_id=str(doc.id), name=doc.name, version=doc.version, template_dir=template_dir, logger=logger)
+        inst = cls(document_id=str(doc.id), name=doc.name, version=doc.version, template_dir=template_dir, logger=logger, repository=repository)
         inst.existing_blocks = list(doc.content)  # preserve order
         inst._logger.info(
             "editor.from_file_with_blocks",
@@ -175,6 +182,36 @@ class DocumentEditor:
                 raise ValueError("Rendered block did not produce a mapping/object.")
             dicts.append(data)
         return dicts
+
+
+    def _build_document_model_for_validation(self) -> "AtrbDocument":
+        """Construct an AtrbDocument from in-memory state for validation before writing."""
+        from uuid import UUID
+        from .models import AtrbDocument, BaseBlock
+
+        # Existing parsed blocks are already BaseBlock instances
+        existing = list(self.existing_blocks)
+
+        # New blocks rendered to dicts -> BaseBlock
+        rendered = self._render_new_blocks_as_dicts()
+        new_blocks: list[BaseBlock] = []
+        for raw in rendered:
+            try:
+                new_blocks.append(BaseBlock.model_validate(raw))
+            except Exception as e:
+                raise ValueError(f"New block failed to validate shape: {e}") from e
+
+        all_blocks = existing + new_blocks
+        try:
+            doc = AtrbDocument(
+                id=UUID(str(self.document_id)),
+                name=self.name,
+                version=int(self.version),
+                content=all_blocks,
+            )
+        except Exception as e:
+            raise ValueError(f"Unable to construct document model for validation: {e}") from e
+        return doc
 
     # ---- Output -------------------------------------------------------
     def render(self) -> str:
@@ -235,6 +272,14 @@ class DocumentEditor:
         When *ensure_trailing_newline* is True (default), guarantees the output ends
         with exactly one trailing newline for deterministic diffs.
         """
+        # Validate composed document before rendering/writing
+        try:
+            _doc = self._build_document_model_for_validation()
+            AtrbValidator.validate(_doc)
+        except Exception as e:
+            self._logger.error("editor.validation_failed", extra={"error": str(e)})
+            raise
+
         text = self.render()
         if ensure_trailing_newline:
             text = _ensure_single_trailing_newline(text)
@@ -245,6 +290,16 @@ class DocumentEditor:
             # Not all text streams support flush; ignore.
             pass
         self._logger.info("editor.write_to_stream", extra={"bytes": len(text)})
+
+        # Persist to repository if provided
+        try:
+            if getattr(self, "_repo", None) is not None:
+                _doc = self._build_document_model_for_validation()
+                self._repo.save(_doc)  # type: ignore[attr-defined]
+                self._logger.info("editor.repo_saved", extra={"doc_id": str(_doc.id)})
+        except Exception:
+            # Repository failures should not break writes
+            pass
 
     def save(self, filepath: str | Path, *, ensure_trailing_newline: bool = True) -> None:
         """Render and write the current document to *filepath*.
