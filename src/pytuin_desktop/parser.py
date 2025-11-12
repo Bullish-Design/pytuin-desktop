@@ -1,4 +1,4 @@
-"""Parser for validating and loading .atrb files (v3, Step 8)."""
+"""Parser for validating and loading .atrb files."""
 from __future__ import annotations
 
 from pathlib import Path

@@ -1,4 +1,4 @@
-"""Convenience builders for common block templates (v3 Step 1)."""
+"""Convenience builders for common block templates."""
 from __future__ import annotations
 
 from pathlib import Path

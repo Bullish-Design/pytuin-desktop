@@ -1,4 +1,4 @@
-"""Minimal Pydantic models for parsing .atrb files (Step 8)."""
+"""Minimal Pydantic models for parsing .atrb files."""
 from __future__ import annotations
 
 from typing import Any

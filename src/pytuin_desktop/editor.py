@@ -1,4 +1,4 @@
-"""Document editor for manipulating .atrb files (v3 Step 5 & Step 6 streaming)."""
+"""Document editor for manipulating .atrb files."""
 from __future__ import annotations
 
 from pathlib import Path
