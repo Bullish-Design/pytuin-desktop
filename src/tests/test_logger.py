@@ -89,6 +89,7 @@ def test_editor_logs_basic_flow(monkeypatch, tmp_path):
 
     ed = pd.DocumentEditor.create("Demo", logger=lg)
     text = ed.render()
+    print(f"\n\nRendered text: {text}\n")
     assert text == "ok"
     out = tmp_path / "out.atrb"
     ed.save(out)

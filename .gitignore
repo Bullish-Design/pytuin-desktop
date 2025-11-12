@@ -2,7 +2,7 @@
 .devenv*
 devenv.local.nix
 devenv.lock
-
+**/.vscode/**
 
 # direnv
 .direnv
