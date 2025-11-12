@@ -1,8 +1,8 @@
-id: "1472cb2d-3768-4547-9d2c-3640c38aaa84"
+id: "5cf196c0-c783-4d4a-bf55-112dc2c1db1b"
 name: "Complete Server Setup Runbook"
 version: 1
 content:
-- id: "02d13318-bcc0-4c27-bf0e-0d7d55312627"
+- id: "83e2b1a3-ba88-4820-be40-57ef6af72e55"
   type: heading
   props:
     level: 1
@@ -20,7 +20,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "d2328717-cdbe-430d-a2cd-3605ccb99f3d"
+- id: "b02759b3-9e88-4618-921d-adcdeca88ec0"
   type: paragraph
   props:
     textColor: default
@@ -36,11 +36,11 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "846bbfb9-390a-465f-b9e7-ffd2a7be3085"
+- id: "0ce8dde6-ede4-4652-8c73-77a13c33df57"
   type: horizontal_rule
   props: {}
   children: []
-- id: "a3eec36a-717f-4762-8afe-8aa6ebdad726"
+- id: "16716a69-61f5-4a4a-86a7-5dd571d05b83"
   type: heading
   props:
     level: 2
@@ -58,7 +58,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "cdd92d41-64f3-4507-8ec6-4b6af8e00aa5"
+- id: "57de5fa6-021f-4bc7-88c1-0a57990f9952"
   type: paragraph
   props:
     textColor: default
@@ -74,7 +74,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "cfed84d7-a586-445e-b98e-3578bb9e862c"
+- id: "f1e56c46-4f6c-4feb-8fb1-4dec85f5e583"
   type: heading
   props:
     level: 2
@@ -92,7 +92,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "61df5354-6213-4ec2-aa40-6c5bbfdb380d"
+- id: "edf24d5e-e809-4eee-8bf8-77978f3bbddb"
   type: script
   props:
     interpreter: bash
@@ -102,7 +102,7 @@ content:
     outputVisible: true
     dependency: "{\"pip\": [], \"npm\": []}"
   children: []
-- id: "e3cf25de-8800-4da5-b4ea-0bdd0c90d88a"
+- id: "5dcf637e-ee76-43eb-86c6-e61fc4919bdb"
   type: script
   props:
     interpreter: bash
@@ -112,7 +112,7 @@ content:
     outputVisible: true
     dependency: "{\"pip\": [], \"npm\": []}"
   children: []
-- id: "e3c1831c-fdc0-41bb-8173-03a541493f93"
+- id: "c4230501-f4d4-4bbf-a98a-07fca0b45a93"
   type: heading
   props:
     level: 2
@@ -130,7 +130,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: "f575731e-9f09-4fac-8bf2-cfa6a97eba61"
+- id: "e80ae0c7-1ae3-4ad6-8314-9cf9d3e82d22"
   type: script
   props:
     interpreter: bash

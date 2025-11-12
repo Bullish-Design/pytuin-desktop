@@ -1,17 +1,21 @@
-"""Exception hierarchy for Pytuin-Desktop (v3 Step 3)."""
+# path: pytuin_desktop/errors.py
+"""Exception hierarchy for Pytuin-Desktop (v4 Phase 1)."""
 from __future__ import annotations
 
 class AtrbError(Exception):
-    """Base class for all .atrb-related errors."""
+    def __init__(self, message: str, *, suggestion: str | None = None, context: dict | None = None):
+        self.message = message
+        self.suggestion = suggestion
+        self.context = context or {}
+        full = message
+        if suggestion:
+            full = f"{full}\n\nSuggestion: {suggestion}"
+        if self.context:
+            ctx = ", ".join(f"{k}={v!r}" for k, v in self.context.items())
+            full = f"{full}\n\nContext: {ctx}"
+        super().__init__(full)
 
-class AtrbParseError(AtrbError):
-    """Low-level parsing failure (e.g., invalid YAML)."""
-
-class AtrbSchemaError(AtrbError):
-    """The document structure is not conformant (missing/invalid keys)."""
-
-class AtrbValidationError(AtrbError):
-    """Semantic/type validation failure when constructing models."""
-
-class TemplateDiscoveryError(AtrbError):
-    """Template discovery failed (e.g., directory not found)."""
+class AtrbParseError(AtrbError): ...
+class AtrbSchemaError(AtrbError): ...
+class AtrbValidationError(AtrbError): ...
+class TemplateDiscoveryError(AtrbError): ...
