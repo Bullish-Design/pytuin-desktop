@@ -1,8 +1,8 @@
-"""Document editor for manipulating .atrb files (v3 Step 5)."""
+"""Document editor for manipulating .atrb files (v3 Step 5 & Step 6 streaming)."""
 from __future__ import annotations
 
 from pathlib import Path
-from typing import List, Optional, Union
+from typing import List, Optional, Union, TextIO
 from uuid import uuid4
 from logging import Logger
 from types import SimpleNamespace
@@ -209,16 +209,31 @@ class DocumentEditor:
         self._logger.info("editor.render_done", extra={"bytes": len(rendered)})
         return rendered
 
+    def write_to_stream(self, stream: TextIO, *, ensure_trailing_newline: bool = True) -> None:
+        """Render the document and write it to an open text stream.
+
+        When *ensure_trailing_newline* is True (default), guarantees the output ends
+        with exactly one trailing newline for deterministic diffs.
+        """
+        text = self.render()
+        if ensure_trailing_newline:
+            text = _ensure_single_trailing_newline(text)
+        stream.write(text)
+        try:
+            stream.flush()
+        except Exception:
+            # Not all text streams support flush; ignore.
+            pass
+        self._logger.info("editor.write_to_stream", extra={"bytes": len(text)})
+
     def save(self, filepath: str | Path, *, ensure_trailing_newline: bool = True) -> None:
         """Render and write the current document to *filepath*.
 
         When *ensure_trailing_newline* is True (default), guarantees the file ends
         with exactly one trailing newline for deterministic diffs.
         """
-        text = self.render()
-        if ensure_trailing_newline:
-            text = _ensure_single_trailing_newline(text)
         p = Path(filepath)
         p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(text, encoding="utf-8")
-        self._logger.info("editor.save", extra={"path": str(p.absolute()), "bytes": len(text)})
+        with p.open("w", encoding="utf-8") as f:
+            self.write_to_stream(f, ensure_trailing_newline=ensure_trailing_newline)
+        self._logger.info("editor.save", extra={"path": str(p.absolute())})

@@ -1,8 +1,8 @@
-id: "53a113e6-6ae0-42a4-8e68-8fd9b600af53"
+id: "e24a6313-87d4-4559-b8d7-9efb5513a2a4"
 name: "Template Direct Usage Test"
 version: 1
 content:
-- id: "705685eb-bab7-450c-ac0a-e061f6677d5f"
+- id: "f37b4b86-3058-426e-80cc-d3ecdc3cc0d4"
   type: heading
   props:
     level: 1

@@ -1,8 +1,8 @@
-"""Parser for validating and loading .atrb files (Step 8, Step 2 logging)."""
+"""Parser for validating and loading .atrb files (Step 8, Step 2 logging, Step 6 streaming)."""
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, TextIO
 from uuid import UUID
 from logging import Logger
 
@@ -23,6 +23,14 @@ class AtrbParser:
         text = p.read_text(encoding="utf-8")
         lg.info("parser.parse_file", extra={"path": str(p.absolute()), "bytes": len(text)})
         return AtrbParser.parse_string(text, logger=lg)
+
+    @staticmethod
+    def parse_stream(stream: TextIO, logger: Logger | None = None, **_: object) -> AtrbDocument:
+        """Read from a text stream and parse it into an AtrbDocument."""
+        lg = logger or _default_logger
+        content = stream.read()
+        lg.info("parser.parse_stream", extra={"bytes": len(content)})
+        return AtrbParser.parse_string(content, logger=lg)
 
     @staticmethod
     def parse_string(content: str, logger: Logger | None = None, **_: object) -> AtrbDocument:

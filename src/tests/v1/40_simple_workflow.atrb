@@ -1,8 +1,8 @@
-id: 6746b1b0-d8b0-45c2-9ddf-a53a884eceb6
+id: fefbfa47-f52b-4cbb-96d7-e89bc1cb1546
 name: Simple Workflow Test
 version: 1
 content:
-- id: b3b359a0-18c8-403f-bdc7-8217113b22e0
+- id: 01797fd5-d950-4266-93af-b86143da8256
   type: heading
   props:
     level: 1
@@ -20,7 +20,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: 00babbbc-3707-4697-a74d-655ca237e997
+- id: 8b849985-7626-4f87-b203-2589fdadf57c
   type: paragraph
   props:
     textColor: default

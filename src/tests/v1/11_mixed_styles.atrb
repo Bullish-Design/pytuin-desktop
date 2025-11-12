@@ -1,8 +1,8 @@
-id: "d7c8ed78-4a77-47a7-ba74-504d684e268f"
+id: "0460cb2b-24f2-4e20-8367-3868a1705603"
 name: "Mixed Styles Test"
 version: 1
 content:
-- id: "53c64af8-dd2b-4109-8d1a-17b7e819de5d"
+- id: "9ea1cdd8-6b92-4142-877b-b9076c52fae0"
   type: paragraph
   props:
     textColor: default

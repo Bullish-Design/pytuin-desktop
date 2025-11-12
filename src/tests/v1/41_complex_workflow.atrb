@@ -1,8 +1,8 @@
-id: 5f222b28-4a34-4988-a506-f8540ccc3fa9
+id: 5eb84cb1-3caa-427f-98af-66d282c4797c
 name: Complex Workflow Test
 version: 1
 content:
-- id: 37ca47f0-edfb-4bfa-b644-986dd7f74b7b
+- id: e0c2e3c8-0c23-4f7e-81a1-9c89a97cef06
   type: heading
   props:
     level: 1
@@ -20,7 +20,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: 91dbe558-f25f-4d68-afa2-3afc1dabe278
+- id: 7c1f88c8-efef-47c5-b18f-2503cd554275
   type: paragraph
   props:
     textColor: default
@@ -44,11 +44,11 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: c7f68817-084b-4047-9545-41c5a1499495
+- id: 11f887da-1f97-4da2-bd60-963dea25bd7a
   type: horizontal_rule
   props: {}
   children: []
-- id: 2257864d-a5c8-482d-9c04-02efb018504f
+- id: 0955ff84-1c4c-4fde-993a-6007531f3a67
   type: heading
   props:
     level: 2
@@ -66,7 +66,7 @@ content:
       strikethrough: false
       code: false
   children: []
-- id: 61effa97-d1f3-42bc-985f-3e3c127aa7f1
+- id: d1e9b812-47bf-4da9-89bb-a7d744629443
   type: script
   props:
     interpreter: bash
