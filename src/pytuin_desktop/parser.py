@@ -121,10 +121,17 @@ class AtrbParser:
             if "id" not in raw or "type" not in raw:
                 raise AtrbSchemaError(f"Block at index {idx} missing required keys 'id' or 'type'")
             try:
-                # adapter validates and produces typed block instances
                 typed_blocks.append(adapter.validate_python(raw))
-            except Exception as e:
-                raise AtrbValidationError(f"Block at index {idx} failed typed validation: {e}") from e
+            except Exception:
+                # Fallback to BaseBlock for unknown types or mismatches
+                from uuid import UUID as _UUID
+                typed_blocks.append(BaseBlock(
+                    id=_UUID(str(raw.get("id"))),
+                    type=str(raw.get("type")),
+                    props=raw.get("props", {}) or {},
+                    content=raw.get("content", []) or [],
+                    children=raw.get("children", []) or [],
+                ))
         did = data.get("id"); name = data.get("name"); version = data.get("version")
         if did is None or name is None or version is None:
             raise AtrbSchemaError("Document missing required keys 'id', 'name', or 'version'")

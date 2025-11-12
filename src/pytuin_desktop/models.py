@@ -144,7 +144,7 @@ class HorizontalRuleBlock(BaseModel):
 
 
 # Discriminated union. Unknown types can still be represented by BaseBlock.
-Block = Annotated[    HeadingBlock | ParagraphBlock | ScriptBlock | EditorBlock | TerminalBlock |     EnvironmentBlock | VariableBlock | DirectoryBlock | HorizontalRuleBlock | BaseBlock,    Field(discriminator="type")]
+Block = HeadingBlock | ParagraphBlock | ScriptBlock | EditorBlock | TerminalBlock | EnvironmentBlock | VariableBlock | DirectoryBlock | HorizontalRuleBlock
 
 
 class AtrbDocument(BaseModel):
@@ -152,4 +152,4 @@ class AtrbDocument(BaseModel):
     id: UUID
     name: str
     version: int
-    content: list[Block] = Field(default_factory=list)
+    content: list[Block | BaseBlock] = Field(default_factory=list)
