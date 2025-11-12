@@ -6,6 +6,7 @@ from typing import List, Optional, Union, TextIO
 from uuid import uuid4
 from logging import Logger
 from types import SimpleNamespace
+from enum import Enum
 
 from yaml import safe_dump, safe_load
 # Expose a patchable yaml-like namespace for tests
@@ -30,6 +31,8 @@ def _to_jsonable(obj):
     from uuid import UUID
     if isinstance(obj, dict):
         return {k: _to_jsonable(v) for k, v in obj.items()}
+    if isinstance(obj, Enum):
+        return obj.value
     if isinstance(obj, list):
         return [_to_jsonable(x) for x in obj]
     if isinstance(obj, UUID):

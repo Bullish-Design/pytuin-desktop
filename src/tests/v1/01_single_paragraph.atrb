@@ -1,8 +1,8 @@
-id: "69d6fd01-ca55-422b-99bd-ac93cc04ff85"
+id: "fc22bd17-08a5-4734-b3f6-6ca3ee822c73"
 name: "Single Paragraph Test"
 version: 1
 content:
-- id: "41a57ee9-6f59-49a9-9ba3-03bcd1dd2fa1"
+- id: "7ec57326-6898-49a7-8a26-62f06b09b0b2"
   type: paragraph
   props:
     textColor: default
