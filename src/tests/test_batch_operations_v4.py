@@ -1,13 +1,13 @@
 # path: src/tests/test_batch_operations_v4.py
-from pytuin_desktop import DocumentEditor, BlockBuilder
+from pytuin_desktop import DocumentEditor, BlockBuilder, AtrbParser
 
-def test_add_replace_remove_batches():
+def test_add_replace_remove_batches(tmp_path):
     ed = DocumentEditor.create("Batch")
-    ed.add_blocks([BlockBuilder.paragraph(f"p{i}") for i in range(5)])
+    ed.add_blocks([BlockBuilder.paragraph(f"P{i}") for i in range(5)])
     assert ed.block_count() == 5
-
-    ed.replace_blocks({0: BlockBuilder.heading("H"), 2: BlockBuilder.paragraph("np")})
-    assert ed.block_count() == 5  # replace in-place
-
-    ed.remove_blocks_at([1,3])
-    assert ed.block_count() == 3
+    ed.replace_blocks({1: BlockBuilder.heading("H1"), 3: BlockBuilder.heading("H3")})
+    ed.remove_blocks_at([0, 4])
+    p = tmp_path / "batch.atrb"
+    ed.save(p)
+    doc = AtrbParser.parse_file(p)
+    assert [b.type for b in doc.content] == ["heading", "paragraph", "heading"]

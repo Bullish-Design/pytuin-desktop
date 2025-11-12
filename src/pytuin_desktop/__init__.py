@@ -34,6 +34,8 @@ from .metrics import (
     MetricsCollector, NoOpMetricsCollector, InMemoryMetricsCollector,
     TimingContext, get_default_collector, set_default_collector
 )
+from .services import DocumentLoader, DocumentSerializer  # re-export services
+
 
 __all__ = [
     # Repositories
@@ -65,4 +67,8 @@ __all__ = [
     # Metrics
     "MetricsCollector","NoOpMetricsCollector","InMemoryMetricsCollector","TimingContext",
     "get_default_collector","set_default_collector",
+    # Services
+    "DocumentLoader","DocumentSerializer",
 ]
+
+
